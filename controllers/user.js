@@ -20,10 +20,15 @@ const deleteUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: `Delete user with id : ${req.params.id}` });
 });
 
+const getUserGains = asyncHandler(async (req, res) =>{
+  res.status(200).json({ message: "Get all gains of a single user" });
+});
+
 module.exports = {
   getAllUsers,
   getUser,
   getUsersByRole,
   updateUser,
   deleteUser,
+  getUserGains
 };

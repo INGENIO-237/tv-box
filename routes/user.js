@@ -4,6 +4,7 @@ const {
   getUsersByRole,
   updateUser,
   deleteUser,
+  getUserGains,
 } = require("../controllers/user");
 
 const router = require("express").Router();
@@ -32,5 +33,10 @@ router.put("/:id", updateUser);
 // route DELETE /api/{version}/users/:id
 // public
 router.delete("/:id", deleteUser);
+
+// @desc Get all gains of a user
+// route GET /api/{version}/users/:id/gains
+// public
+router.get("/:id/gains", getUserGains);
 
 module.exports = router;
