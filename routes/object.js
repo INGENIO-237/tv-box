@@ -1,4 +1,10 @@
-const { getAllObjects, createObject, getObject, updateObject, deleteObject } = require("../controllers/object");
+const {
+  getAllObjects,
+  createObject,
+  getObject,
+  updateObject,
+  deleteObject,
+} = require("../controllers/object");
 
 const router = require("express").Router();
 

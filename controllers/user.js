@@ -12,12 +12,18 @@ const getUsersByRole = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Get users by role" });
 });
 
-const updateUser = asyncHandler(async (req, res) =>{
-    res.status(204).json({ message: `Update user with id : ${req.params.id}` });
+const updateUser = asyncHandler(async (req, res) => {
+  res.status(204).json({ message: `Update user with id : ${req.params.id}` });
 });
 
-const deleteUser = asyncHandler(async (req, res) =>{
-    res.status(200).json({ message: `Delete user with id : ${req.params.id}` });
+const deleteUser = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: `Delete user with id : ${req.params.id}` });
 });
 
-module.exports = { getAllUsers, getUser, getUsersByRole, updateUser, deleteUser };
+module.exports = {
+  getAllUsers,
+  getUser,
+  getUsersByRole,
+  updateUser,
+  deleteUser,
+};
