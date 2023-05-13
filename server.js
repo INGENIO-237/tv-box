@@ -19,6 +19,10 @@ app.use(`/api/${version}/categories`, require("./routes/category"));
 app.use(`/api/${version}/account`, require("./routes/auth"));
 app.use(`/api/${version}/users`, require("./routes/user"));
 app.use(`/api/${version}/roles`, require("./routes/role"));
+app.use(`/api/${version}/objects`, require("./routes/object"));
+app.use(`/api/${version}/requests`, require("./routes/request"));
+app.use(`/api/${version}/sales`, require("./routes/sale"));
+app.use(`/api/${version}/orders`, require("./routes/order"));
 
 // Run app
 app.listen(PORT, (err) =>{

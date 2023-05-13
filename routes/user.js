@@ -26,11 +26,11 @@ router.get("/:role", getUsersByRole);
 // @desc Update single user
 // route PUT /api/{version}/users/:id
 // public
-router.get("/:id", updateUser);
+router.put("/:id", updateUser);
 
 // @desc Delete single user
 // route DELETE /api/{version}/users/:id
 // public
-router.get("/:id", deleteUser);
+router.delete("/:id", deleteUser);
 
 module.exports = router;

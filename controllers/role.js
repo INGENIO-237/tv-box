@@ -5,7 +5,7 @@ const getAllRoles = asyncHandler(async (req, res) =>{
 });
 
 const getRole = asyncHandler(async (req, res) =>{
-    res.status(200).json({ message: "Get single rple" });
+    res.status(200).json({ message: "Get single role" });
 });
 
 const createRole = asyncHandler(async (req, res) =>{
