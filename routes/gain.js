@@ -1,28 +1,20 @@
+const { getAllGains, createGain, getGain } = require("../controllers/gain");
+
 const router = require("express").Router();
 
-// @desc Get all payments
-// @route GET /api/{version}/payments
+// @desc Get all gains
+// @route GET /api/{version}/gains
 // public
-router.get("/", getAllPayments);
+router.get("/", getAllGains);
 
 // @desc Create a sale
-// @route POST /api/{version}/payments
+// @route POST /api/{version}/gains
 // public
-router.post("/", createPayment);
+router.post("/", createGain);
 
 // @desc Get a sale
-// @route GET /api/{version}/payments/:id
+// @route GET /api/{version}/gains/:id
 // public
-router.get("/:id", getPayment);
-
-// @desc Update a sale
-// @route PUT /api/{version}/payments/:id
-// public
-router.put("/:id", updatePayment);
-
-// @desc Delete a sale
-// @route DELETE /api/{version}/payments/:id
-// public
-router.delete("/:id", deletePayment);
+router.get("/:id", getGain);
 
 module.exports = router;

@@ -13,22 +13,22 @@ const router = require("express").Router();
 // public
 router.get("/", getAllPromotions);
 
-// @desc Create a sale
+// @desc Create a promotion
 // @route POST /api/{version}/promotions
 // public
 router.post("/", createPromotion);
 
-// @desc Get a sale
+// @desc Get a promotion
 // @route GET /api/{version}/promotions/:id
 // public
 router.get("/:id", getPromotion);
 
-// @desc Update a sale
+// @desc Update a promotion
 // @route PUT /api/{version}/promotions/:id
 // public
 router.put("/:id", updatePromotion);
 
-// @desc Delete a sale
+// @desc Delete a promotion
 // @route DELETE /api/{version}/promotions/:id
 // public
 router.delete("/:id", deletePromotion);
