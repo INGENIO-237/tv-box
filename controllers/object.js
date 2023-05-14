@@ -1,34 +1,34 @@
 const asyncHandler = require("express-async-handler");
 
-const getAllObjects = asyncHandler(async (req, res) => {
+const getAllObjectsHandler = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Get all objects" });
 });
 
-const getObject = asyncHandler(async (req, res) => {
+const getObjectHandler = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Get single object" });
 });
 
-const createObject = asyncHandler(async (req, res) => {
+const createObjectHandler = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Create an object" });
 });
 
-const updateObject = asyncHandler(async (req, res) => {
+const updateObjectHandler = asyncHandler(async (req, res) => {
   res.status(204).json({ message: "Update object" });
 });
 
-const deleteObject = asyncHandler(async (req, res) => {
+const deleteObjectHandler = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Delete object" });
 });
 
-const getObjetRequests = asyncHandler(async (req, res) =>{
+const getObjetRequestsHandler = asyncHandler(async (req, res) =>{
   res.status(200).json({ message: "Get all requests of an object" });
 });
 
 module.exports = {
-  getAllObjects,
-  getObject,
-  createObject,
-  updateObject,
-  deleteObject,
-  getObjetRequests
+  getAllObjectsHandler,
+  getObjectHandler,
+  createObjectHandler,
+  updateObjectHandler,
+  deleteObjectHandler,
+  getObjetRequestsHandler
 };

@@ -1,40 +1,40 @@
 const asyncHandler = require("express-async-handler");
 
-const getCategories = asyncHandler(async (req, res) => {
+const getAllCategoriesHandler = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "All categories" });
 });
 
-const createCategory = asyncHandler(async (req, res) => {
+const createCategoryHandler = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Create a category" });
 });
 
-const getCategory = asyncHandler(async (req, res) => {
+const getCategoryHandler = asyncHandler(async (req, res) => {
   res.status(200).json({ message: `Get a category with id: ${req.params.id}` });
 });
 
-const updateCategory = asyncHandler(async (req, res) => {
+const updateCategoryHandler = asyncHandler(async (req, res) => {
   res
     .status(204)
     .json({ message: `Update a category with id: ${req.params.id}` });
 });
 
-const deleteCategory = asyncHandler(async (req, res) => {
+const deleteCategoryHandler = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json({ message: `Delete a category with id: ${req.params.id}` });
 });
 
-const getCategoryArticles = asyncHandler(async (req, res) => {
+const getCategoryArticlesHandler = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json({ message: `Get all articles of category ${req.params.id}` });
 });
 
 module.exports = {
-  getCategories,
-  getCategory,
-  createCategory,
-  updateCategory,
-  deleteCategory,
-  getCategoryArticles,
+  getAllCategoriesHandler,
+  getCategoryHandler,
+  createCategoryHandler,
+  updateCategoryHandler,
+  deleteCategoryHandler,
+  getCategoryArticlesHandler,
 };

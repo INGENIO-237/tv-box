@@ -1,20 +1,24 @@
-const { registerUser, loginUser, currentUser } = require("../controllers/auth");
+const {
+  registerUserHandler,
+  loginUserHandler,
+  currentUserHandler,
+} = require("../controllers/auth");
 
 const router = require("express").Router();
 
 // @desc Register a new user
 // route POST /api/{version}/account/register
 // public
-router.post("/register", registerUser);
+router.post("/register", registerUserHandler);
 
 // @desc Login user
 // route POST /api/{version}/account/login
 // public
-router.post("/login", loginUser);
+router.post("/login", loginUserHandler);
 
 // @desc Get current user info
 // route GET /api/{version}/account/current
 // public
-router.get("/current", currentUser);
+router.get("/current", currentUserHandler);
 
 module.exports = router;

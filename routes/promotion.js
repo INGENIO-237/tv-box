@@ -1,9 +1,9 @@
 const {
-  getAllPromotions,
-  createPromotion,
-  getPromotion,
-  updatePromotion,
-  deletePromotion,
+  getAllPromotionsHandler,
+  createPromotionHandler,
+  getPromotionHandler,
+  updatePromotionHandler,
+  deletePromotionHandler,
 } = require("../controllers/promotion");
 
 const router = require("express").Router();
@@ -11,26 +11,26 @@ const router = require("express").Router();
 // @desc Get all promotions
 // @route GET /api/{version}/promotions
 // public
-router.get("/", getAllPromotions);
+router.get("/", getAllPromotionsHandler);
 
 // @desc Create a promotion
 // @route POST /api/{version}/promotions
 // public
-router.post("/", createPromotion);
+router.post("/", createPromotionHandler);
 
 // @desc Get a promotion
 // @route GET /api/{version}/promotions/:id
 // public
-router.get("/:id", getPromotion);
+router.get("/:id", getPromotionHandler);
 
 // @desc Update a promotion
 // @route PUT /api/{version}/promotions/:id
 // public
-router.put("/:id", updatePromotion);
+router.put("/:id", updatePromotionHandler);
 
 // @desc Delete a promotion
 // @route DELETE /api/{version}/promotions/:id
 // public
-router.delete("/:id", deletePromotion);
+router.delete("/:id", deletePromotionHandler);
 
 module.exports = router;
