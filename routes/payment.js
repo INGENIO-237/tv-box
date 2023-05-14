@@ -1,9 +1,9 @@
 const {
-  getAllPayments,
-  createPayment,
-  getPayment,
-  updatePayment,
-  deletePayment,
+  getAllPaymentsHandler,
+  createPaymentHandler,
+  getPaymentHandler,
+  updatePaymentHandler,
+  deletePaymentHandler,
 } = require("../controllers/payment");
 
 const router = require("express").Router();
@@ -11,26 +11,26 @@ const router = require("express").Router();
 // @desc Get all payments
 // @route GET /api/{version}/payments
 // public
-router.get("/", getAllPayments);
+router.get("/", getAllPaymentsHandler);
 
 // @desc Create a sale
 // @route POST /api/{version}/payments
 // public
-router.post("/", createPayment);
+router.post("/", createPaymentHandler);
 
 // @desc Get a sale
 // @route GET /api/{version}/payments/:id
 // public
-router.get("/:id", getPayment);
+router.get("/:id", getPaymentHandler);
 
 // @desc Update a sale
 // @route PUT /api/{version}/payments/:id
 // public
-router.put("/:id", updatePayment);
+router.put("/:id", updatePaymentHandler);
 
 // @desc Delete a sale
 // @route DELETE /api/{version}/payments/:id
 // public
-router.delete("/:id", deletePayment);
+router.delete("/:id", deletePaymentHandler);
 
 module.exports = router;

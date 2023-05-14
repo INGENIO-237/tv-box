@@ -1,10 +1,10 @@
 const {
-  getCategories,
-  createCategory,
-  updateCategory,
-  deleteCategory,
-  getCategory,
-  getCategoryArticles,
+  getAllCategoriesHandler,
+  createCategoryHandler,
+  getCategoryHandler,
+  updateCategoryHandler,
+  deleteCategoryHandler,
+  getCategoryArticlesHandler,
 } = require("../controllers/category");
 
 const router = require("express").Router();
@@ -12,31 +12,31 @@ const router = require("express").Router();
 // @desc Get All Categories
 // @route GET /api/{version}/categories
 // public
-router.get("/", getCategories);
+router.get("/", getAllCategoriesHandler);
 
 // @desc Create a Category
 // @route POST /api/{version}/categories
 // public
-router.post("/", createCategory);
+router.post("/", createCategoryHandler);
 
 // @desc Get a single Category
 // @route GET /api/{version}/categories
 // public
-router.get("/:id", getCategory);
+router.get("/:id", getCategoryHandler);
 
 // @desc Update a Category
 // @route PUT /api/{version}/categories/:id
 // public
-router.put("/:id", updateCategory);
+router.put("/:id", updateCategoryHandler);
 
 // @desc Delete a Category
 // @route DELETE /api/{version}/categories/:id
 // public
-router.delete("/:id", deleteCategory);
+router.delete("/:id", deleteCategoryHandler);
 
 // @desc Get all articles of a certain Category
 // @route GET /api/{version}/categories/:id/articles
 // public
-router.get("/:id/articles", getCategoryArticles);
+router.get("/:id/articles", getCategoryArticlesHandler);
 
 module.exports = router;
