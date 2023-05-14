@@ -4,6 +4,7 @@ const {
   getObject,
   updateObject,
   deleteObject,
+  getObjetRequests,
 } = require("../controllers/object");
 
 const router = require("express").Router();
@@ -32,5 +33,10 @@ router.put("/:id", updateObject);
 // @route DELETE /api/{version}/objects/:id
 // public
 router.delete("/:id", deleteObject);
+
+// @desc Get all requests of an object
+// @route GET /api/{version}/objects/:id/requests
+// public
+router.get("/:id/requests", getObjetRequests);
 
 module.exports = router;

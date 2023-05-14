@@ -20,10 +20,15 @@ const deleteObject = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Delete object" });
 });
 
+const getObjetRequests = asyncHandler(async (req, res) =>{
+  res.status(200).json({ message: "Get all requests of an object" });
+});
+
 module.exports = {
   getAllObjects,
   getObject,
   createObject,
   updateObject,
   deleteObject,
+  getObjetRequests
 };
