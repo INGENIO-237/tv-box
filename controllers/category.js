@@ -23,7 +23,7 @@ const createCategoryHandler = asyncHandler(async (req, res) => {
       [libelle],
       (errors, result) => {
         if (errors) throw errors;
-        res.status(200).json({
+        res.status(201).json({
           insertedId: result.insertId,
           message: "Category inserted successfully",
         });
