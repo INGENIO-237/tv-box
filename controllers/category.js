@@ -108,9 +108,31 @@ const deleteCategoryHandler = asyncHandler(async (req, res) => {
 });
 
 const getCategoryArticlesHandler = asyncHandler(async (req, res) => {
-  res
-    .status(200)
-    .json({ message: `Get all articles of category ${req.params.id}` });
+  if(req.params.id){
+    await db.query(
+      { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
+      [req.params.id],
+      (errors, result) => {
+        if (errors) throw errors;
+        if (result.length == 0) {
+          res.status(404).json({
+            message: `Category with id ${req.params.id} does not exist`,
+          });
+        } else {
+          db.query(
+            { sql: "SELECT * FROM categorie cat, article art WHERE cat.id_cat = art.id_cat AND cat.id_cat = ?" },
+            [req.params.id],
+            (errors, result) => {
+              if (errors) throw errors;
+              res
+                .status(200)
+                .json(result);
+            }
+          );
+        }
+      }
+    );
+  }
 });
 
 module.exports = {

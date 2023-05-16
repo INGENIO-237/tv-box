@@ -31,7 +31,7 @@ router.get("/:id", getArticleHandler);
 // @desc Update single article
 // @route PUT /api/{version}/articles/:id
 // public
-router.put("/:id", updateArticleHandler);
+router.put("/:id", upload.single('image_art'), updateArticleHandler);
 
 // @desc Delete single article
 // @route DELETE /api/{version}/articles/:id
