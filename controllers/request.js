@@ -15,8 +15,9 @@ const getRequestHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
     await db.query(
       {
-        sql: "SELECT * FROM demande dmd, objet obj WHERE dmd.id_obj = obj.id_obj",
+        sql: "SELECT * FROM demande dmd, objet obj WHERE dmd.id_obj = obj.id_obj AND dmd.id_dmd = ?",
       },
+      [req.params.id],
       (errors, result) => {
         if (errors) throw errors;
         if (result.length == 0) {
@@ -52,7 +53,7 @@ const createRequestHandler = asyncHandler(async (req, res) => {
   } else {
     await db.query(
       {
-        sql: "INSERT INTO demande(id_obj, date_travaux, lieu_travaux, nom_complet_cli_dmd, phone_cli_dmd) VALUES(?,?,?,?,?,?)",
+        sql: "INSERT INTO demande(id_obj, date_travaux, lieu_travaux, desc_travaux, nom_complet_cli_dmd, phone_cli_dmd) VALUES(?,?,?,?,?,?)",
       },
       [
         id_obj,
