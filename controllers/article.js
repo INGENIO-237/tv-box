@@ -15,8 +15,9 @@ const getAllArticlesHandler = asyncHandler(async (req, res) => {
 
 // Create an article
 const createArticleHandler = asyncHandler(async (req, res, next) => {
-  const image_art = req.file;
-  res.status(201).json(image_art);
+  // const image_art = req.file;
+  console.log(req.res);
+  // res.status(201).json(image_art);
 });
 
 const getArticleHandler = asyncHandler(async (req, res) => {

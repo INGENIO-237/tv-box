@@ -9,7 +9,6 @@ const {
 
 // Package in charge of handling images
 const multer = require("multer");
-const handleArticleCreation = require("../middlewares/handleArticleCreation");
 const upload = multer({ storage: storage });
 
 const router = require("express").Router();
@@ -22,7 +21,7 @@ router.get("/", getAllArticlesHandler);
 // @desc Create an article
 // @route POST /api/{version}/articles
 // public
-router.post("/", handleArticleCreation, createArticleHandler);
+router.post("/", upload.single('image_art'), createArticleHandler);
 
 // @desc Get single article
 // @route GET /api/{version}/articles/:id
