@@ -36,15 +36,40 @@ const createArticleHandler = asyncHandler(async (req, res, next) => {
     {
       sql: "INSERT INTO article(id_cat, nom_art, desc_art, prix_art, image_art) VALUES(?,?,?,?,?)",
     },
-    [id_cat, nom_art, desc_art, prix_art, newPath], (errors, result) =>{
-      if(errors) throw errors;
-      res.status(201).json({ insertedId: result.insertId, message: "Article inserted successfully" });
+    [id_cat, nom_art, desc_art, prix_art, newPath],
+    (errors, result) => {
+      if (errors) throw errors;
+      res
+        .status(201)
+        .json({
+          insertedId: result.insertId,
+          message: "Article inserted successfully",
+        });
     }
   );
 });
 
 const getArticleHandler = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Single article" });
+  if (req.params.id) {
+    await db.query(
+      {
+        sql: "SELECT * FROM article art, categorie cat WHERE cat.id_cat = art.id_cat AND art.id_art = ?",
+      },
+      [req.params.id],
+      (errors, result) => {
+        if (errors) throw errors;
+        if (result.length == 0) {
+          res
+            .status(404)
+            .json({
+              message: `Article with id ${req.params.id} does not exist`,
+            });
+        } else {
+          res.status(200).json(result[0]);
+        }
+      }
+    );
+  }
 });
 
 const updateArticleHandler = asyncHandler(async (req, res) => {
