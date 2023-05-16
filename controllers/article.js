@@ -13,12 +13,11 @@ const getAllArticlesHandler = asyncHandler(async (req, res) => {
   );
 });
 
-const createArticleHandler = asyncHandler(async (req, res) => {
-  const { id_cat, nom_art, desc_art, prix_art, image_art } = req.body;
-  if (!id_cat || !nom_art || !desc_art || !prix_art || !image_art) {
-    res.status(400).json({ message: "All fields are mandatory !" });
-  }
-  res.status(201).json({ message: "Create an article" });
+// Create an article
+const createArticleHandler = asyncHandler(async (req, res, next) => {
+  // const image_art = req.file;
+  console.log(req.res);
+  // res.status(201).json(image_art);
 });
 
 const getArticleHandler = asyncHandler(async (req, res) => {

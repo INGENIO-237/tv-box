@@ -69,7 +69,7 @@ const updateCategoryHandler = asyncHandler(async (req, res) => {
             [libelle, req.params.id],
             (errors, result) => {
               if (errors) throw errors;
-              res.status(204);
+              res.status(20);
             }
           );
         }
