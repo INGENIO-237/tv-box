@@ -103,7 +103,29 @@ const deleteObjectHandler = asyncHandler(async (req, res) => {
 });
 
 const getObjetRequestsHandler = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Get all requests of an object" });
+  if (req.params.id) {
+    await db.query(
+      { sql: "SELECT * FROM objet WHERE id_obj = ?" },
+      [req.params.id],
+      (errors, result) => {
+        if (errors) throw errors;
+        if (result.length == 0) {
+          res.status(404).json({
+            message: `Object with id ${req.params.id} does not exist`,
+          });
+        } else {
+          db.query(
+            { sql: "SELECT * FROM demande WHERE id_obj = ?" },
+            [req.params.id],
+            (errors, result) => {
+              if (errors) throw errors;
+              res.status(200).json(result);
+            }
+          );
+        }
+      }
+    );
+  }
 });
 
 module.exports = {
