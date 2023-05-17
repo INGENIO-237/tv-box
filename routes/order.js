@@ -12,37 +12,37 @@ const router = require("express").Router();
 
 // @desc Get all orders
 // @route GET /api/{version}/orders
-// public
+// private
 router.get("/", getAllOrdersHandler);
 
 // @desc Create an order
 // @route POST /api/{version}/orders
-// public
+// private
 router.post("/", createOrderHandler);
 
 // @desc Get an order
 // @route GET /api/{version}/orders/:id
-// public
+// private
 router.get("/:id", getOrderHandler);
 
 // @desc Update an order
 // @route PUT /api/{version}/orders/:id
-// public
+// private
 router.put("/:id", updateOrderHandler);
 
 // @desc Delete an order
 // @route DELETE /api/{version}/orders/:id
-// public
+// private
 router.delete("/:id", deleteOrderHandler);
 
 // @desc Change the delivery status of an order
 // @route PUT /api/{version}/orders/:id/status
-// public
+// private
 router.put("/:id/status", changeOrderStatusHandler);
 
 // @desc Get all related sales of an order
 // @route GET /api/{version}/orders/:id/sales
-// public
+// private
 router.get("/:id/sales", getOrderSalesHandler);
 
 module.exports = router;

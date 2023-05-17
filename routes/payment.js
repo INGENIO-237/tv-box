@@ -10,27 +10,27 @@ const router = require("express").Router();
 
 // @desc Get all payments
 // @route GET /api/{version}/payments
-// public
+// private
 router.get("/", getAllPaymentsHandler);
 
 // @desc Create a sale
 // @route POST /api/{version}/payments
-// public
+// private
 router.post("/", createPaymentHandler);
 
 // @desc Get a sale
 // @route GET /api/{version}/payments/:id
-// public
+// private
 router.get("/:id", getPaymentHandler);
 
 // @desc Update a sale
 // @route PUT /api/{version}/payments/:id
-// public
+// private
 router.put("/:id", updatePaymentHandler);
 
 // @desc Delete a sale
 // @route DELETE /api/{version}/payments/:id
-// public
+// private
 router.delete("/:id", deletePaymentHandler);
 
 module.exports = router;

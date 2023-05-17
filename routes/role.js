@@ -10,27 +10,27 @@ const router = require("express").Router();
 
 // @desc Get all roles
 // @route GET /api/{version}/roles
-// public
+// private
 router.get("/", getAllRolesHandler);
 
 // @desc Create a role
 // @route POST /api/{version}/roles
-// public
+// private
 router.post("/", createRoleHandler);
 
 // @desc Get a role
 // @route GET /api/{version}/roles/:id
-// public
+// private
 router.get("/:id", getRoleHandler);
 
 // @desc Update a role
 // @route PUT /api/{version}/roles/:id
-// public
+// private
 router.put("/:id", updateRoleHandler);
 
 // @desc Delete a role
 // @route DELETE /api/{version}/roles/:id
-// public
+// private
 router.delete("/:id", deleteRoleHandler);
 
 module.exports = router;

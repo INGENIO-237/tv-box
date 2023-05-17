@@ -4,17 +4,17 @@ const router = require("express").Router();
 
 // @desc Get all gains
 // @route GET /api/{version}/gains
-// public
+// private
 router.get("/", getAllGainsHandler);
 
 // @desc Create a sale
 // @route POST /api/{version}/gains
-// public
+// private
 router.post("/", createGainHandler);
 
 // @desc Get a sale
 // @route GET /api/{version}/gains/:id
-// public
+// private
 router.get("/:id", getGainHandler);
 
 module.exports = router;

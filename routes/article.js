@@ -15,27 +15,27 @@ const router = require("express").Router();
 
 // @desc Get all articles
 // @route GET /api/{version}/articles
-// public
+// private
 router.get("/", getAllArticlesHandler);
 
 // @desc Create an article
 // @route POST /api/{version}/articles
-// public
+// private
 router.post("/", upload.single('image_art'), createArticleHandler);
 
 // @desc Get single article
 // @route GET /api/{version}/articles/:id
-// public
+// private
 router.get("/:id", getArticleHandler);
 
 // @desc Update single article
 // @route PUT /api/{version}/articles/:id
-// public
+// private
 router.put("/:id", upload.single('image_art'), updateArticleHandler);
 
 // @desc Delete single article
 // @route DELETE /api/{version}/articles/:id
-// public
+// private
 router.delete("/:id", deleteArticleHandler);
 
 module.exports = router;

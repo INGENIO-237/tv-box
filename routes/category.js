@@ -11,32 +11,32 @@ const router = require("express").Router();
 
 // @desc Get All Categories
 // @route GET /api/{version}/categories
-// public
+// private
 router.get("/", getAllCategoriesHandler);
 
 // @desc Create a Category
 // @route POST /api/{version}/categories
-// public
+// private
 router.post("/", createCategoryHandler);
 
 // @desc Get a single Category
 // @route GET /api/{version}/categories
-// public
+// private
 router.get("/:id", getCategoryHandler);
 
 // @desc Update a Category
 // @route PUT /api/{version}/categories/:id
-// public
+// private
 router.put("/:id", updateCategoryHandler);
 
 // @desc Delete a Category
 // @route DELETE /api/{version}/categories/:id
-// public
+// private
 router.delete("/:id", deleteCategoryHandler);
 
 // @desc Get all articles of a certain Category
 // @route GET /api/{version}/categories/:id/articles
-// public
+// private
 router.get("/:id/articles", getCategoryArticlesHandler);
 
 module.exports = router;
