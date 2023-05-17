@@ -1,36 +1,26 @@
 const {
-  getAllSalesHandler,
   createSaleHandler,
-  getSaleHandler,
   updateSaleHandler,
   deleteSaleHandler,
 } = require("../controllers/sale");
 
 const router = require("express").Router();
 
-// @desc Get all sales
-// @route GET /api/{version}/sales
-// public
-router.get("/", getAllSalesHandler);
-
 // @desc Create a sale
 // @route POST /api/{version}/sales
 // public
 router.post("/", createSaleHandler);
 
-// @desc Get a sale
-// @route GET /api/{version}/sales/:id
-// public
-router.get("/:id", getSaleHandler);
-
 // @desc Update a sale
-// @route PUT /api/{version}/sales/:id
+// @route PUT /api/{version}/sales/
+// We pass the id_cmd and id_art via the request body
 // public
-router.put("/:id", updateSaleHandler);
+router.put("/", updateSaleHandler);
 
 // @desc Delete a sale
-// @route DELETE /api/{version}/sales/:id
+// @route DELETE /api/{version}/sales/
+// We pass the id_cmd and id_art via the request body
 // public
-router.delete("/:id", deleteSaleHandler);
+router.delete("/", deleteSaleHandler);
 
 module.exports = router;

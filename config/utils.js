@@ -1,9 +1,10 @@
 const fs = require("fs");
 
+
+// Gets the extension of the file
+// sets the new name
+// and rename the file and its path
 const newPath = (file) => {
-  // Gets the extension of the file
-  // sets the new name
-  // and rename the file and its path
   const ext = file.mimetype.split("/")[1];
   const newName = file.filename + "." + ext;
   fs.rename(
