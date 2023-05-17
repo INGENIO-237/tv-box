@@ -6,7 +6,12 @@ const {
   deletePromotionHandler,
 } = require("../controllers/promotion");
 
+const accessVerification = require("../middlewares/tokenVerification");
+
 const router = require("express").Router();
+
+// acess token verification middleware
+router.use(accessVerification)
 
 // @desc Get all promotions
 // @route GET /api/{version}/promotions

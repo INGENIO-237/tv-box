@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const db = require("./config/db");
+const accessVerification = require("./middlewares/tokenVerification");
 
 // PORT
 const PORT = process.env.PORT || 3000;
@@ -11,7 +12,7 @@ const version = "1.0";
 // Initialize app
 const app = express();
 
-// Middlewares
+// Body parsing middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

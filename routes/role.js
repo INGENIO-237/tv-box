@@ -6,7 +6,12 @@ const {
   deleteRoleHandler,
 } = require("../controllers/role");
 
+const accessVerification = require("../middlewares/tokenVerification");
+
 const router = require("express").Router();
+
+// Access token verification middleware
+router.use(accessVerification);
 
 // @desc Get all roles
 // @route GET /api/{version}/roles
