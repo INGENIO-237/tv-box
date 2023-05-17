@@ -22,7 +22,7 @@ router.get("/:id", getUserHandler);
 // @desc Get users by role
 // route GET /api/{version}/users/:role
 // public
-router.get("/:role", getUsersByRoleHandler);
+router.get("/roles/:role", getUsersByRoleHandler);
 
 // @desc Update single user
 // route PUT /api/{version}/users/:id
