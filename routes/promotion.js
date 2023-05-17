@@ -10,27 +10,27 @@ const router = require("express").Router();
 
 // @desc Get all promotions
 // @route GET /api/{version}/promotions
-// public
+// private
 router.get("/", getAllPromotionsHandler);
 
 // @desc Create a promotion
 // @route POST /api/{version}/promotions
-// public
+// private
 router.post("/", createPromotionHandler);
 
 // @desc Get a promotion
 // @route GET /api/{version}/promotions/:id
-// public
+// private
 router.get("/:id", getPromotionHandler);
 
 // @desc Update a promotion
 // @route PUT /api/{version}/promotions/:id
-// public
+// private
 router.put("/:id", updatePromotionHandler);
 
 // @desc Delete a promotion
 // @route DELETE /api/{version}/promotions/:id
-// public
+// private
 router.delete("/:id", deletePromotionHandler);
 
 module.exports = router;
