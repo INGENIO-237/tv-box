@@ -4,6 +4,7 @@ const {
   getOrderHandler,
   updateOrderHandler,
   deleteOrderHandler,
+  changeOrderStatusHandler,
 } = require("../controllers/order");
 
 const router = require("express").Router();
@@ -13,24 +14,29 @@ const router = require("express").Router();
 // public
 router.get("/", getAllOrdersHandler);
 
-// @desc Create a sale
+// @desc Create an order
 // @route POST /api/{version}/orders
 // public
 router.post("/", createOrderHandler);
 
-// @desc Get a sale
+// @desc Get an order
 // @route GET /api/{version}/orders/:id
 // public
 router.get("/:id", getOrderHandler);
 
-// @desc Update a sale
+// @desc Update an order
 // @route PUT /api/{version}/orders/:id
 // public
 router.put("/:id", updateOrderHandler);
 
-// @desc Delete a sale
+// @desc Delete an order
 // @route DELETE /api/{version}/orders/:id
 // public
 router.delete("/:id", deleteOrderHandler);
+
+// @desc Change the delivery status of an order
+// @route PUT /api/{version}/orders/:id/status
+// public
+router.put("/:id/status", changeOrderStatusHandler);
 
 module.exports = router;
