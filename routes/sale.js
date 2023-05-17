@@ -4,7 +4,12 @@ const {
   deleteSaleHandler,
 } = require("../controllers/sale");
 
+const accessVerification = require("../middlewares/tokenVerification");
+
 const router = require("express").Router();
+
+// Access token verification middleware
+router.use(accessVerification);
 
 // @desc Create a sale
 // @route POST /api/{version}/sales

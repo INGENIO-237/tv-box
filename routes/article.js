@@ -7,11 +7,16 @@ const {
   deleteArticleHandler,
 } = require("../controllers/article");
 
+const accessVerification = require("../middlewares/tokenVerification");
+
 // Package in charge of handling images
 const multer = require("multer");
 const upload = multer({ storage: storage });
 
 const router = require("express").Router();
+
+// acess token verification middleware
+router.use(accessVerification)
 
 // @desc Get all articles
 // @route GET /api/{version}/articles

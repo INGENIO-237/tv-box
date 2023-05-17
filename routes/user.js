@@ -7,7 +7,12 @@ const {
   getUserGainsHandler,
 } = require("../controllers/user");
 
+const accessVerification = require("../middlewares/tokenVerification");
+
 const router = require("express").Router();
+
+// Access token verification middleware
+router.use(accessVerification);
 
 // @desc Get all users
 // route GET /api/{version}/users/

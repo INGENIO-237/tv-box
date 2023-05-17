@@ -7,7 +7,12 @@ const {
   getObjetRequestsHandler,
 } = require("../controllers/object");
 
+const accessVerification = require("../middlewares/tokenVerification");
+
 const router = require("express").Router();
+
+// acess token verification middleware
+router.use(accessVerification);
 
 // @desc Get all objects
 // @route GET /api/{version}/objects

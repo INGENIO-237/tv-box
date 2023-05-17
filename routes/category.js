@@ -7,7 +7,12 @@ const {
   getCategoryArticlesHandler,
 } = require("../controllers/category");
 
+const accessVerification = require("../middlewares/tokenVerification");
+
 const router = require("express").Router();
+
+// acess token verification middleware
+router.use(accessVerification);
 
 // @desc Get All Categories
 // @route GET /api/{version}/categories
