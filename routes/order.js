@@ -5,6 +5,7 @@ const {
   updateOrderHandler,
   deleteOrderHandler,
   changeOrderStatusHandler,
+  getOrderSalesHandler,
 } = require("../controllers/order");
 
 const router = require("express").Router();
@@ -38,5 +39,10 @@ router.delete("/:id", deleteOrderHandler);
 // @route PUT /api/{version}/orders/:id/status
 // public
 router.put("/:id/status", changeOrderStatusHandler);
+
+// @desc Get all related sales of an order
+// @route GET /api/{version}/orders/:id/sales
+// public
+router.get("/:id/sales", getOrderSalesHandler);
 
 module.exports = router;

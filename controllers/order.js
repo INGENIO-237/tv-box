@@ -106,22 +106,16 @@ const deleteOrderHandler = asyncHandler(async (req, res) => {
             .status(404)
             .json({ message: `Order with id ${req.params.id} does not exist` });
         } else {
-          const { adresse_liv, date_liv, nom_complet_cli, phone_cli } =
-            req.body;
-          if (!date_liv || !adresse_liv || !nom_complet_cli || !phone_cli) {
-            res.status(400).json({ message: "All fields are mandatory" });
-          } else {
-            db.query(
-              {
-                sql: "DELETE FROM commande WHERE id_cmd = ?",
-              },
-              [req.params.id],
-              (errors, result) => {
-                if (errors) throw errors;
-                res.status(200).json(result);
-              }
-            );
-          }
+          db.query(
+            {
+              sql: "DELETE FROM commande WHERE id_cmd = ?",
+            },
+            [req.params.id],
+            (errors, result) => {
+              if (errors) throw errors;
+              res.status(200).json({ message: "Order deleted successfully" });
+            }
+          );
         }
       }
     );
@@ -160,6 +154,34 @@ const changeOrderStatusHandler = asyncHandler(async (req, res) => {
   }
 });
 
+const getOrderSalesHandler = asyncHandler(async (req, res) => {
+  if (req.params.id) {
+    await db.query(
+      { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
+      [req.params.id],
+      (errors, result) => {
+        if (errors) throw errors;
+        if (result.length == 0) {
+          res
+            .status(404)
+            .json({ message: `Order with id ${req.params.id} does not exist` });
+        } else {
+          db.query(
+            {
+              sql: "SELECT art.id_art, art.nom_art, art.prix_art, con.qte FROM commande cmd, article art, concerner con WHERE cmd.id_cmd = ? AND cmd.id_cmd = con.id_cmd AND art.id_art = con.id_art",
+            },
+            [req.params.id],
+            (errors, result) => {
+              if (errors) throw errors;
+              res.status(200).json(result);
+            }
+          );
+        }
+      }
+    );
+  }
+});
+
 module.exports = {
   getAllOrdersHandler,
   getOrderHandler,
@@ -167,4 +189,5 @@ module.exports = {
   updateOrderHandler,
   deleteOrderHandler,
   changeOrderStatusHandler,
+  getOrderSalesHandler,
 };
