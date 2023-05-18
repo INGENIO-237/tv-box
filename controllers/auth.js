@@ -123,9 +123,68 @@ const updateCredentialsHandler = asyncHandler(async (req, res) => {
   }
 });
 
+const passwordResetRequestHandler = asyncHandler(async (req, res) => {
+  const { email_usr } = req.body;
+  if (!email_usr) {
+    res.status(400).json({ message: "All fields are mandatory" });
+  } else {
+    await db.query(
+      { sql: "SELECT * FROM utilisateur WHERE email_usr = ?" },
+      [email_usr],
+      (errors, result) => {
+        if (errors) throw errors;
+        if (result.length == 0) {
+          res
+            .status(404)
+            .json({ message: "There's no user with this email address" });
+        } else {
+          const resetToken = jwt.sign(
+            { user: result[0] },
+            process.env.TOKEN_ACCESS_SECRET,
+            { expiresIn: "10m" }
+          );
+
+          // TODO: SENT BACK THE PASSWORD RESET URL TO THE USER VIA EMAIL
+          res.status(200).json({ token: resetToken });
+        }
+      }
+    );
+  }
+});
+
+const passwordResetHandler = asyncHandler(async (req, res) => {
+  const { new_mdp } = req.body;
+  if (req.params.token && new_mdp) {
+    const salt = await bcrypt.genSalt(10);
+    const newPwd = await bcrypt.hash(new_mdp, salt);
+    await jwt.verify(
+      req.params.token,
+      process.env.TOKEN_ACCESS_SECRET,
+      (error, decoded) => {
+        if (error) {
+          res.status(401).json({ message: "Invalid token" });
+        } else {
+          db.query(
+            { sql: "UPDATE utilisateur SET mdp_usr = ? WHERE id_usr = ?" },
+            [newPwd, decoded.user.id_usr],
+            (errors, result) => {
+              if (errors) throw errors;
+              res.status(200).json({ message: "Password reset successfully" });
+            }
+          );
+        }
+      }
+    );
+  } else {
+    res.status(400).json({ message: "All fields are mandatory" });
+  }
+});
+
 module.exports = {
   registerUserHandler,
   loginUserHandler,
   currentUserHandler,
   updateCredentialsHandler,
+  passwordResetRequestHandler,
+  passwordResetHandler
 };

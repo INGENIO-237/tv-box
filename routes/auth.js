@@ -3,6 +3,8 @@ const {
   loginUserHandler,
   currentUserHandler,
   updateCredentialsHandler,
+  passwordResetRequestHandler,
+  passwordResetHandler,
 } = require("../controllers/auth");
 
 const accessVerification = require("../middlewares/tokenVerification");
@@ -11,12 +13,12 @@ const router = require("express").Router();
 
 // @desc Register a new user
 // route POST /api/{version}/account/register
-// private
+// public
 router.post("/register", registerUserHandler);
 
 // @desc Login user
 // route POST /api/{version}/account/login
-// private
+// public
 router.post("/login", loginUserHandler);
 
 // @desc Get current user info
@@ -28,5 +30,15 @@ router.get("/current", accessVerification, currentUserHandler);
 // route POST /api/{version}/account/update-credentials
 // private
 router.put("/update-credentials", accessVerification, updateCredentialsHandler);
+
+// @desc Request for a password reset
+// route POST /api/{version}/account/forgot-password
+// public
+router.post("/forgot-password", passwordResetRequestHandler);
+
+// @desc Reset user password
+// route POST /api/{version}/account/password-reset/:token
+// public
+router.post("/password-reset/:token", passwordResetHandler);
 
 module.exports = router;
