@@ -1,6 +1,5 @@
 const fs = require("fs");
 
-
 // Gets the extension of the file
 // sets the new name
 // and rename the file and its path

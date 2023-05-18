@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../config/db");
+const { passwordHash } = require("../utils/password-hash");
 require("dotenv").config();
 
 const registerUserHandler = asyncHandler(async (req, res) => {
@@ -13,10 +14,9 @@ const registerUserHandler = asyncHandler(async (req, res) => {
       .json({ message: "email, password, name, phone or all are missing" });
   } else {
     const role = id_role ? id_role : 2;
-    const salt = await bcrypt.genSalt(10);
-    const mdp = await bcrypt.hash(mdp_usr, salt);
+    const mdp = await passwordHash(mdp_usr);
 
-    await db.query(
+    db.query(
       { sql: "SELECT * FROM utilisateur WHERE email_usr = ?" },
       [email_usr],
       (errors, result) => {
@@ -48,7 +48,7 @@ const loginUserHandler = asyncHandler(async (req, res) => {
   if (!email_usr || !mdp_usr) {
     res.status(400).json({ message: "All fields are mandatory" });
   } else {
-    await db.query(
+    db.query(
       { sql: "SELECT * FROM utilisateur WHERE email_usr = ?" },
       [email_usr],
       (errors, result) => {
@@ -86,9 +86,8 @@ const updateCredentialsHandler = asyncHandler(async (req, res) => {
   if ((!new_email_usr, !old_mdp_usr, !new_mdp_usr)) {
     res.status(400).json({ message: "All fields are mandatory !" });
   } else {
-    const salt = await bcrypt.genSalt(10);
-    const newPwd = await bcrypt.hash(new_mdp_usr, salt);
-    await db.query(
+    const newPwd = await passwordHash(new_mdp_usr);
+    db.query(
       { sql: "SELECT id_usr, email_usr FROM utilisateur WHERE email_usr = ?" },
       [new_email_usr],
       (errors, result) => {
@@ -128,7 +127,7 @@ const passwordResetRequestHandler = asyncHandler(async (req, res) => {
   if (!email_usr) {
     res.status(400).json({ message: "All fields are mandatory" });
   } else {
-    await db.query(
+    db.query(
       { sql: "SELECT * FROM utilisateur WHERE email_usr = ?" },
       [email_usr],
       (errors, result) => {
@@ -155,9 +154,8 @@ const passwordResetRequestHandler = asyncHandler(async (req, res) => {
 const passwordResetHandler = asyncHandler(async (req, res) => {
   const { new_mdp } = req.body;
   if (req.params.token && new_mdp) {
-    const salt = await bcrypt.genSalt(10);
-    const newPwd = await bcrypt.hash(new_mdp, salt);
-    await jwt.verify(
+    const newPwd = await passwordHash(new_mdp);
+    jwt.verify(
       req.params.token,
       process.env.TOKEN_ACCESS_SECRET,
       (error, decoded) => {
