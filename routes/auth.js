@@ -4,6 +4,8 @@ const {
   currentUserHandler,
 } = require("../controllers/auth");
 
+const accessVerification = require("../middlewares/tokenVerification");
+
 const router = require("express").Router();
 
 // @desc Register a new user
@@ -19,6 +21,6 @@ router.post("/login", loginUserHandler);
 // @desc Get current user info
 // route GET /api/{version}/account/current
 // private
-router.get("/current", currentUserHandler);
+router.get("/current", accessVerification, currentUserHandler);
 
 module.exports = router;
