@@ -1,4 +1,3 @@
-const storage = require("../config/image-storage");
 const {
   getAllArticlesHandler,
   createArticleHandler,
@@ -6,6 +5,8 @@ const {
   updateArticleHandler,
   deleteArticleHandler,
 } = require("../controllers/article");
+
+const storage = require("../utils/image-storage");
 
 const accessVerification = require("../middlewares/tokenVerification");
 
