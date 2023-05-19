@@ -182,6 +182,32 @@ const getOrderSalesHandler = asyncHandler(async (req, res) => {
   }
 });
 
+const getOrderPaymentsHandler = asyncHandler(async (req, res) => {
+  if (req.params.id) {
+    db.query(
+      { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
+      [req.params.id],
+      (errors, result) => {
+        if (errors) throw errors;
+        if (result.length == 0) {
+          res
+            .status(404)
+            .json({ message: `Order with id ${req.params.id} does not exist` });
+        } else {
+          db.query(
+            { sql: "SELECT * paiement WHERE id_cmd = ?" },
+            [req.params.id],
+            (errors, result) => {
+              if (errors) throw errors;
+              res.status(200).json(result);
+            }
+          );
+        }
+      }
+    );
+  }
+});
+
 module.exports = {
   getAllOrdersHandler,
   getOrderHandler,
@@ -190,4 +216,5 @@ module.exports = {
   deleteOrderHandler,
   changeOrderStatusHandler,
   getOrderSalesHandler,
+  getOrderPaymentsHandler,
 };
