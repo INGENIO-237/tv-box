@@ -40,8 +40,8 @@ router.put("/:id", updateUserHandler);
 router.delete("/:id", deleteUserHandler);
 
 // @desc Get all gains of a user
-// route GET /api/{version}/users/:id/gains
+// route GET /api/{version}/users/gains
 // private
-router.get("/:id/gains", getUserGainsHandler);
+router.get("/gains", getUserGainsHandler);
 
 module.exports = router;

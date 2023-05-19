@@ -6,6 +6,7 @@ const {
   deleteOrderHandler,
   changeOrderStatusHandler,
   getOrderSalesHandler,
+  getOrderPaymentsHandler,
 } = require("../controllers/order");
 const accessVerification = require("../middlewares/tokenVerification");
 
@@ -45,5 +46,10 @@ router.put("/:id/status", accessVerification, changeOrderStatusHandler);
 // @route GET /api/{version}/orders/:id/sales
 // private
 router.get("/:id/sales", accessVerification, getOrderSalesHandler);
+
+// @desc Get all related payments of an order
+// @route GET /api/{version}/orders/:id/payments
+// private
+router.get("/:id/sales", accessVerification, getOrderPaymentsHandler);
 
 module.exports = router;
