@@ -1,9 +1,9 @@
 const {
   getAllPromotionsHandler,
   createPromotionHandler,
-  getPromotionHandler,
-  updatePromotionHandler,
-  deletePromotionHandler,
+  getPromotionByUserIdHandler,
+  updatePromotionByUserIdHandler,
+  deletePromotionByUserIdHandler,
 } = require("../controllers/promotion");
 
 const accessVerification = require("../middlewares/tokenVerification");
@@ -11,7 +11,7 @@ const accessVerification = require("../middlewares/tokenVerification");
 const router = require("express").Router();
 
 // acess token verification middleware
-router.use(accessVerification)
+router.use(accessVerification);
 
 // @desc Get all promotions
 // @route GET /api/{version}/promotions
@@ -23,19 +23,19 @@ router.get("/", getAllPromotionsHandler);
 // private
 router.post("/", createPromotionHandler);
 
-// @desc Get a promotion
-// @route GET /api/{version}/promotions/:id
+// @desc Get a user's promotion
+// @route GET /api/{version}/promotions/:id_usr
 // private
-router.get("/:id", getPromotionHandler);
+router.get("/:id_usr", getPromotionByUserIdHandler);
 
-// @desc Update a promotion
-// @route PUT /api/{version}/promotions/:id
+// @desc Update a user's promotion
+// @route PUT /api/{version}/promotions/:id_usr
 // private
-router.put("/:id", updatePromotionHandler);
+router.put("/:id_usr", updatePromotionByUserIdHandler);
 
-// @desc Delete a promotion
-// @route DELETE /api/{version}/promotions/:id
+// @desc Delete a user's promotion
+// @route DELETE /api/{version}/promotions/:id_usr
 // private
-router.delete("/:id", deletePromotionHandler);
+router.delete("/:id_usr", deletePromotionByUserIdHandler);
 
 module.exports = router;
