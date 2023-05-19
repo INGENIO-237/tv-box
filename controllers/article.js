@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
-const { newPath, deleteImg } = require("../config/utils");
+const { newPath, deleteImg } = require("../utils/article-image");
 const fs = require("fs");
 
 const getAllArticlesHandler = asyncHandler(async (req, res) => {

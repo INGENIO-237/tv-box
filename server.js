@@ -1,7 +1,5 @@
 const express = require("express");
 require("dotenv").config();
-const db = require("./config/db");
-const accessVerification = require("./middlewares/tokenVerification");
 
 // PORT
 const PORT = process.env.PORT || 3000;
