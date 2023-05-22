@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 
 const getAllCategoriesHandler = asyncHandler(async (req, res) => {
-   db.query(
+  db.query(
     { sql: "SELECT * FROM categorie ORDER BY libelle_cat ASC" },
     (errors, result) => {
       if (errors) throw errors;
@@ -12,21 +12,33 @@ const getAllCategoriesHandler = asyncHandler(async (req, res) => {
 });
 
 const createCategoryHandler = asyncHandler(async (req, res) => {
-  const libelle = req.body.libelle_cat;
+  let libelle = req.body.libelle_cat;
   if (!libelle) {
     res.status(400).json({
       message: `All fields are mandatory !`,
     });
   } else {
-     db.query(
-      { sql: "INSERT INTO categorie(libelle_cat) values(?)" },
+    libelle = libelle.toLowerCase();
+    db.query(
+      { sql: "SELECT libelle_cat FROM categorie WHERE libelle_cat = ?" },
       [libelle],
       (errors, result) => {
         if (errors) throw errors;
-        res.status(201).json({
-          insertedId: result.insertId,
-          message: "Category inserted successfully",
-        });
+        if (result.length > 0) {
+          res.status(400).json({ sql: "This category already exists" });
+        } else {
+          db.query(
+            { sql: "INSERT INTO categorie(libelle_cat) values(?)" },
+            [libelle],
+            (errors, result) => {
+              if (errors) throw errors;
+              res.status(201).json({
+                insertedId: result.insertId,
+                message: "Category inserted successfully",
+              });
+            }
+          );
+        }
       }
     );
   }
@@ -34,7 +46,7 @@ const createCategoryHandler = asyncHandler(async (req, res) => {
 
 const getCategoryHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
@@ -53,7 +65,7 @@ const getCategoryHandler = asyncHandler(async (req, res) => {
 
 const updateCategoryHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
@@ -80,7 +92,7 @@ const updateCategoryHandler = asyncHandler(async (req, res) => {
 
 const deleteCategoryHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
@@ -108,8 +120,8 @@ const deleteCategoryHandler = asyncHandler(async (req, res) => {
 });
 
 const getCategoryArticlesHandler = asyncHandler(async (req, res) => {
-  if(req.params.id){
-     db.query(
+  if (req.params.id) {
+    db.query(
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
@@ -120,13 +132,13 @@ const getCategoryArticlesHandler = asyncHandler(async (req, res) => {
           });
         } else {
           db.query(
-            { sql: "SELECT * FROM categorie cat, article art WHERE cat.id_cat = art.id_cat AND cat.id_cat = ?" },
+            {
+              sql: "SELECT * FROM categorie cat, article art WHERE cat.id_cat = art.id_cat AND cat.id_cat = ?",
+            },
             [req.params.id],
             (errors, result) => {
               if (errors) throw errors;
-              res
-                .status(200)
-                .json(result);
+              res.status(200).json(result);
             }
           );
         }

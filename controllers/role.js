@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 
 const getAllRolesHandler = asyncHandler(async (req, res) => {
-   db.query(
+  db.query(
     { sql: "SELECT * FROM role ORDER BY libelle_role ASC" },
     (errors, result) => {
       if (errors) throw errors;
@@ -13,7 +13,7 @@ const getAllRolesHandler = asyncHandler(async (req, res) => {
 
 const getRoleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       { sql: "SELECT * FROM role WHERE id_role = ?" },
       [req.params.id],
       (errors, result) => {
@@ -31,19 +31,32 @@ const getRoleHandler = asyncHandler(async (req, res) => {
 });
 
 const createRoleHandler = asyncHandler(async (req, res) => {
-  const { libelle_role } = req.body;
+  let { libelle_role } = req.body;
   if (!libelle_role) {
     res.status(400).json({ message: "All fields are mandatory" });
   } else {
-     db.query(
-      { sql: "INSERT INTO role(libelle_role) VALUES(?)" },
+    libelle_role = libelle_role.toLowerCase();
+
+    db.query(
+      { sql: "SELECT libelle_role FROM role WHERE libelle_role = ?" },
       [libelle_role],
       (errors, result) => {
         if (errors) throw errors;
-        res.status(201).json({
-          insertedId: result.insertId,
-          message: "Role inserted successfully",
-        });
+        if (result.length > 0) {
+          res.status(400).json({ message: "This role already exists" });
+        } else {
+          db.query(
+            { sql: "INSERT INTO role(libelle_role) VALUES(?)" },
+            [libelle_role],
+            (errors, result) => {
+              if (errors) throw errors;
+              res.status(201).json({
+                insertedId: result.insertId,
+                message: "Role inserted successfully",
+              });
+            }
+          );
+        }
       }
     );
   }
@@ -51,7 +64,7 @@ const createRoleHandler = asyncHandler(async (req, res) => {
 
 const updateRoleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       { sql: "SELECT * FROM role WHERE id_role = ?" },
       [req.params.id],
       (errors, result) => {
@@ -82,7 +95,7 @@ const updateRoleHandler = asyncHandler(async (req, res) => {
 
 const deleteRoleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       { sql: "SELECT * FROM role WHERE id_role = ?" },
       [req.params.id],
       (errors, result) => {
