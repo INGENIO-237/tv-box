@@ -195,7 +195,7 @@ const getOrderPaymentsHandler = asyncHandler(async (req, res) => {
             .json({ message: `Order with id ${req.params.id} does not exist` });
         } else {
           db.query(
-            { sql: "SELECT * paiement WHERE id_cmd = ?" },
+            { sql: "SELECT * FROM paiement WHERE id_cmd = ?" },
             [req.params.id],
             (errors, result) => {
               if (errors) throw errors;

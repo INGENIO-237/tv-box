@@ -42,6 +42,6 @@ router.delete("/:id", deleteUserHandler);
 // @desc Get all gains of a user
 // route GET /api/{version}/users/gains
 // private
-router.get("/gains", getUserGainsHandler);
+router.get("/promos/gains", getUserGainsHandler);
 
 module.exports = router;

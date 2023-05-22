@@ -50,6 +50,6 @@ router.get("/:id/sales", accessVerification, getOrderSalesHandler);
 // @desc Get all related payments of an order
 // @route GET /api/{version}/orders/:id/payments
 // private
-router.get("/:id/sales", accessVerification, getOrderPaymentsHandler);
+router.get("/:id/payments", accessVerification, getOrderPaymentsHandler);
 
 module.exports = router;

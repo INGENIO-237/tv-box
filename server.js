@@ -25,7 +25,6 @@ app.use(`/api/${version}/requests`, require("./routes/request"));
 app.use(`/api/${version}/sales`, require("./routes/sale"));
 app.use(`/api/${version}/orders`, require("./routes/order"));
 app.use(`/api/${version}/payments`, require("./routes/payment"));
-app.use(`/api/${version}/gains`, require("./routes/gain"));
 app.use(`/api/${version}/promotions`, require("./routes/promotion"));
 
 // Run app

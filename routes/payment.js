@@ -5,6 +5,8 @@ const {
 
 const router = require("express").Router();
 
+
+
 // @desc Create a sale
 // @route POST /api/{version}/payments
 // private
