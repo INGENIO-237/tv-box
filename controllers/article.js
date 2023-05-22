@@ -1,10 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 const { newPath, deleteImg } = require("../utils/article-image");
-const fs = require("fs");
 
 const getAllArticlesHandler = asyncHandler(async (req, res) => {
-   db.query(
+  db.query(
     {
       sql: "SELECT * FROM article art, categorie cat WHERE art.id_cat = cat.id_cat ORDER BY nom_art ASC",
     },
@@ -21,7 +20,7 @@ const createArticleHandler = asyncHandler(async (req, res, next) => {
 
   const imgPath = newPath(req.file);
 
-   db.query(
+  db.query(
     {
       sql: "INSERT INTO article(id_cat, nom_art, desc_art, prix_art, image_art) VALUES(?,?,?,?,?)",
     },
@@ -37,29 +36,27 @@ const createArticleHandler = asyncHandler(async (req, res, next) => {
 });
 
 const getArticleHandler = asyncHandler(async (req, res) => {
-  if (req.params.id) {
-     db.query(
-      {
-        sql: "SELECT * FROM article art, categorie cat WHERE cat.id_cat = art.id_cat AND art.id_art = ?",
-      },
-      [req.params.id],
-      (errors, result) => {
-        if (errors) throw errors;
-        if (result.length == 0) {
-          res.status(404).json({
-            message: `Article with id ${req.params.id} does not exist`,
-          });
-        } else {
-          res.status(200).json(result[0]);
-        }
+  db.query(
+    {
+      sql: "SELECT * FROM article art, categorie cat WHERE cat.id_cat = art.id_cat AND art.id_art = ?",
+    },
+    [req.params.id],
+    (errors, result) => {
+      if (errors) throw errors;
+      if (result.length == 0) {
+        res.status(404).json({
+          message: `Article with id ${req.params.id} does not exist`,
+        });
+      } else {
+        res.status(200).json(result[0]);
       }
-    );
-  }
+    }
+  );
 });
 
 const updateArticleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       {
         sql: "SELECT * FROM article art, categorie cat WHERE art.id_cat = cat.id_cat AND art.id_art = ?",
       },
@@ -96,7 +93,7 @@ const updateArticleHandler = asyncHandler(async (req, res) => {
 
 const deleteArticleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       {
         sql: "SELECT * FROM article art, categorie cat WHERE cat.id_cat = art.id_cat AND art.id_art = ?",
       },

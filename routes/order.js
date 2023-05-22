@@ -8,7 +8,9 @@ const {
   getOrderSalesHandler,
   getOrderPaymentsHandler,
 } = require("../controllers/order");
+
 const accessVerification = require("../middlewares/tokenVerification");
+const checkId = require("../middlewares/check-id");
 
 const router = require("express").Router();
 
@@ -25,31 +27,31 @@ router.post("/", createOrderHandler);
 // @desc Get an order
 // @route GET /api/{version}/orders/:id
 // private
-router.get("/:id", accessVerification, getOrderHandler);
+router.get("/:id", checkId, accessVerification, getOrderHandler);
 
 // @desc Update an order
 // @route PUT /api/{version}/orders/:id
 // private
-router.put("/:id", accessVerification, updateOrderHandler);
+router.put("/:id", checkId, accessVerification, updateOrderHandler);
 
 // @desc Delete an order
 // @route DELETE /api/{version}/orders/:id
 // private
-router.delete("/:id", accessVerification, deleteOrderHandler);
+router.delete("/:id", checkId, accessVerification, deleteOrderHandler);
 
 // @desc Change the delivery status of an order
 // @route PUT /api/{version}/orders/:id/status
 // private
-router.put("/:id/status", accessVerification, changeOrderStatusHandler);
+router.put("/:id/status", checkId, accessVerification, changeOrderStatusHandler);
 
 // @desc Get all related sales of an order
 // @route GET /api/{version}/orders/:id/sales
 // private
-router.get("/:id/sales", accessVerification, getOrderSalesHandler);
+router.get("/:id/sales", checkId, accessVerification, getOrderSalesHandler);
 
 // @desc Get all related payments of an order
 // @route GET /api/{version}/orders/:id/payments
 // private
-router.get("/:id/payments", accessVerification, getOrderPaymentsHandler);
+router.get("/:id/payments", checkId, accessVerification, getOrderPaymentsHandler);
 
 module.exports = router;

@@ -8,6 +8,7 @@ const {
 } = require("../controllers/object");
 
 const accessVerification = require("../middlewares/tokenVerification");
+const checkId = require("../middlewares/check-id");
 
 const router = require("express").Router();
 
@@ -27,21 +28,21 @@ router.post("/", createObjectHandler);
 // @desc Get a object
 // @route GET /api/{version}/objects/:id
 // private
-router.get("/:id", getObjectHandler);
+router.get("/:id", checkId, getObjectHandler);
 
 // @desc Update a object
 // @route PUT /api/{version}/objects/:id
 // private
-router.put("/:id", updateObjectHandler);
+router.put("/:id", checkId, updateObjectHandler);
 
 // @desc Delete a object
 // @route DELETE /api/{version}/objects/:id
 // private
-router.delete("/:id", deleteObjectHandler);
+router.delete("/:id", checkId, deleteObjectHandler);
 
 // @desc Get all requests of an object
 // @route GET /api/{version}/objects/:id/requests
 // private
-router.get("/:id/requests", getObjetRequestsHandler);
+router.get("/:id/requests", checkId, getObjetRequestsHandler);
 
 module.exports = router;

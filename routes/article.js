@@ -9,6 +9,7 @@ const {
 const storage = require("../utils/image-storage");
 
 const accessVerification = require("../middlewares/tokenVerification");
+const checkId = require("../middlewares/check-id");
 
 // Package in charge of handling images
 const multer = require("multer");
@@ -32,16 +33,16 @@ router.post("/", upload.single('image_art'), createArticleHandler);
 // @desc Get single article
 // @route GET /api/{version}/articles/:id
 // private
-router.get("/:id", getArticleHandler);
+router.get("/:id", checkId, getArticleHandler);
 
 // @desc Update single article
 // @route PUT /api/{version}/articles/:id
 // private
-router.put("/:id", upload.single('image_art'), updateArticleHandler);
+router.put("/:id", checkId, upload.single('image_art'), updateArticleHandler);
 
 // @desc Delete single article
 // @route DELETE /api/{version}/articles/:id
 // private
-router.delete("/:id", deleteArticleHandler);
+router.delete("/:id", checkId, deleteArticleHandler);
 
 module.exports = router;
