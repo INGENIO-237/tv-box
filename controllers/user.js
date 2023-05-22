@@ -117,7 +117,7 @@ const deleteUserHandler = asyncHandler(async (req, res) => {
 const getUserGainsHandler = asyncHandler(async (req, res) => {
   db.query(
     {
-      sql: "SELECT g.date_gain, g.montant_gain, p.montant_paie FROM gains g, promotion pro, utilisateur ut, paiement p WHERE ut.id_usr = pro.id_usr AND g.id_prom = pro.id_prom AND g.id_paie = p.id_paie AND ut.id_usr = ? ORDER BY g.date_gain DESC",
+      sql: "SELECT g.date_gain, g.montant_gain, p.montant_paie FROM gain g, promotion pro, utilisateur ut, paiement p WHERE ut.id_usr = pro.id_usr AND g.id_prom = pro.id_prom AND g.id_paie = p.id_paie AND ut.id_usr = ? ORDER BY g.date_gain DESC",
     },
     [req.user.id_usr],
     (errors, result) => {
