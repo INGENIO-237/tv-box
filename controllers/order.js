@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 
 const getAllOrdersHandler = asyncHandler(async (req, res) => {
-  await db.query(
+   db.query(
     { sql: "SELECT * FROM commande ORDER BY date_cmd DESC" },
     (errors, result) => {
       if (errors) throw errors;
@@ -13,7 +13,7 @@ const getAllOrdersHandler = asyncHandler(async (req, res) => {
 
 const getOrderHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
@@ -38,7 +38,7 @@ const createOrderHandler = asyncHandler(async (req, res) => {
     // UTC Date
     const newDateLiv = new Date(date_liv);
 
-    await db.query(
+     db.query(
       {
         sql: "INSERT INTO commande(date_liv, adresse_liv, nom_complet_cli, phone_cli) VALUES(?,?,?,?)",
       },
@@ -56,7 +56,7 @@ const createOrderHandler = asyncHandler(async (req, res) => {
 
 const updateOrderHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
@@ -96,7 +96,7 @@ const updateOrderHandler = asyncHandler(async (req, res) => {
 
 const deleteOrderHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
@@ -124,7 +124,7 @@ const deleteOrderHandler = asyncHandler(async (req, res) => {
 
 const changeOrderStatusHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT statut_liv FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
@@ -156,7 +156,7 @@ const changeOrderStatusHandler = asyncHandler(async (req, res) => {
 
 const getOrderSalesHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {

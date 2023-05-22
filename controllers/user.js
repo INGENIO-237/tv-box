@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 
 const getAllUsersHandler = asyncHandler(async (req, res) => {
-  await db.query(
+  db.query(
     {
       sql: "SELECT * FROM utilisateur ut, role rol WHERE rol.id_role = ut.id_role ORDER BY nom_usr ASC",
     },
@@ -15,7 +15,7 @@ const getAllUsersHandler = asyncHandler(async (req, res) => {
 
 const getUserHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+    db.query(
       {
         sql: "SELECT * FROM utilisateur ut, role rol WHERE ut.id_role = rol.id_role AND ut.id_usr = ?",
       },
@@ -36,7 +36,7 @@ const getUserHandler = asyncHandler(async (req, res) => {
 
 const getUsersByRoleHandler = asyncHandler(async (req, res) => {
   if (req.params.role) {
-    await db.query(
+    db.query(
       {
         sql: "SELECT * FROM utilisateur ut, role rol WHERE ut.id_role = rol.id_role AND rol.id_role = ? ORDER BY ut.nom_usr ASC",
       },
@@ -51,7 +51,7 @@ const getUsersByRoleHandler = asyncHandler(async (req, res) => {
 
 const updateUserHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+    db.query(
       {
         sql: "SELECT * FROM utilisateur ut, role rol WHERE ut.id_role = rol.id_role AND ut.id_usr = ?",
       },
@@ -86,7 +86,7 @@ const updateUserHandler = asyncHandler(async (req, res) => {
 
 const deleteUserHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+    db.query(
       {
         sql: "SELECT * FROM utilisateur ut, role rol WHERE ut.id_role = rol.id_role AND ut.id_usr = ?",
       },

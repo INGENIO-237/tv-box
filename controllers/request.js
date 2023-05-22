@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 
 const getAllRequestsHandler = asyncHandler(async (req, res) => {
-  await db.query(
+   db.query(
     { sql: "SELECT * FROM demande ORDER BY date_dmd DESC" },
     (errors, result) => {
       if (errors) throw errors;
@@ -13,7 +13,7 @@ const getAllRequestsHandler = asyncHandler(async (req, res) => {
 
 const getRequestHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       {
         sql: "SELECT * FROM demande dmd, objet obj WHERE dmd.id_obj = obj.id_obj AND dmd.id_dmd = ?",
       },
@@ -51,7 +51,7 @@ const createRequestHandler = asyncHandler(async (req, res) => {
   ) {
     res.status(400).json({ message: "All fields are mandatory" });
   } else {
-    await db.query(
+     db.query(
       {
         sql: "INSERT INTO demande(id_obj, date_travaux, lieu_travaux, desc_travaux, nom_complet_cli_dmd, phone_cli_dmd) VALUES(?,?,?,?,?,?)",
       },
@@ -76,7 +76,7 @@ const createRequestHandler = asyncHandler(async (req, res) => {
 
 const updateRequestHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       {
         sql: "SELECT * FROM demande dmd, objet obj WHERE dmd.id_obj = obj.id_obj AND id_dmd = ?",
       },
@@ -136,7 +136,7 @@ const updateRequestHandler = asyncHandler(async (req, res) => {
 
 const deleteRequestHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       {
         sql: "SELECT * FROM demande dmd, objet obj WHERE dmd.id_obj = obj.id_obj AND id_dmd = ?",
       },

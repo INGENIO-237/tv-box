@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 
 const getAllObjectsHandler = asyncHandler(async (req, res) => {
-  await db.query(
+   db.query(
     { sql: "SELECT * FROM objet ORDER BY libelle_obj" },
     (errors, result) => {
       if (errors) throw errors;
@@ -13,7 +13,7 @@ const getAllObjectsHandler = asyncHandler(async (req, res) => {
 
 const getObjectHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM objet WHERE id_obj = ?" },
       [req.params.id],
       (errors, result) => {
@@ -35,7 +35,7 @@ const createObjectHandler = asyncHandler(async (req, res) => {
   if (!libelle_obj) {
     res.status(400).json({ message: "All fields are mandatory" });
   } else {
-    await db.query(
+     db.query(
       { sql: "INSERT INTO objet(libelle_obj) VALUES(?)" },
       [libelle_obj],
       (errors, result) => {
@@ -51,7 +51,7 @@ const createObjectHandler = asyncHandler(async (req, res) => {
 
 const updateObjectHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM objet WHERE id_obj = ?" },
       [req.params.id],
       (errors, result) => {
@@ -78,7 +78,7 @@ const updateObjectHandler = asyncHandler(async (req, res) => {
 
 const deleteObjectHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM objet WHERE id_obj = ?" },
       [req.params.id],
       (errors, result) => {
@@ -104,7 +104,7 @@ const deleteObjectHandler = asyncHandler(async (req, res) => {
 
 const getObjetRequestsHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM objet WHERE id_obj = ?" },
       [req.params.id],
       (errors, result) => {

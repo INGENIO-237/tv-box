@@ -4,7 +4,7 @@ const { newPath, deleteImg } = require("../utils/article-image");
 const fs = require("fs");
 
 const getAllArticlesHandler = asyncHandler(async (req, res) => {
-  await db.query(
+   db.query(
     {
       sql: "SELECT * FROM article art, categorie cat WHERE art.id_cat = cat.id_cat ORDER BY nom_art ASC",
     },
@@ -21,7 +21,7 @@ const createArticleHandler = asyncHandler(async (req, res, next) => {
 
   const imgPath = newPath(req.file);
 
-  await db.query(
+   db.query(
     {
       sql: "INSERT INTO article(id_cat, nom_art, desc_art, prix_art, image_art) VALUES(?,?,?,?,?)",
     },
@@ -38,7 +38,7 @@ const createArticleHandler = asyncHandler(async (req, res, next) => {
 
 const getArticleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       {
         sql: "SELECT * FROM article art, categorie cat WHERE cat.id_cat = art.id_cat AND art.id_art = ?",
       },
@@ -59,7 +59,7 @@ const getArticleHandler = asyncHandler(async (req, res) => {
 
 const updateArticleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       {
         sql: "SELECT * FROM article art, categorie cat WHERE art.id_cat = cat.id_cat AND art.id_art = ?",
       },
@@ -96,7 +96,7 @@ const updateArticleHandler = asyncHandler(async (req, res) => {
 
 const deleteArticleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       {
         sql: "SELECT * FROM article art, categorie cat WHERE cat.id_cat = art.id_cat AND art.id_art = ?",
       },

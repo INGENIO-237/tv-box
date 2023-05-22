@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 
 const getAllRolesHandler = asyncHandler(async (req, res) => {
-  await db.query(
+   db.query(
     { sql: "SELECT * FROM role ORDER BY libelle_role ASC" },
     (errors, result) => {
       if (errors) throw errors;
@@ -13,7 +13,7 @@ const getAllRolesHandler = asyncHandler(async (req, res) => {
 
 const getRoleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM role WHERE id_role = ?" },
       [req.params.id],
       (errors, result) => {
@@ -35,7 +35,7 @@ const createRoleHandler = asyncHandler(async (req, res) => {
   if (!libelle_role) {
     res.status(400).json({ message: "All fields are mandatory" });
   } else {
-    await db.query(
+     db.query(
       { sql: "INSERT INTO role(libelle_role) VALUES(?)" },
       [libelle_role],
       (errors, result) => {
@@ -51,7 +51,7 @@ const createRoleHandler = asyncHandler(async (req, res) => {
 
 const updateRoleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM role WHERE id_role = ?" },
       [req.params.id],
       (errors, result) => {
@@ -82,7 +82,7 @@ const updateRoleHandler = asyncHandler(async (req, res) => {
 
 const deleteRoleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM role WHERE id_role = ?" },
       [req.params.id],
       (errors, result) => {

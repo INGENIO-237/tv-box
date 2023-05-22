@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 
 const getAllCategoriesHandler = asyncHandler(async (req, res) => {
-  await db.query(
+   db.query(
     { sql: "SELECT * FROM categorie ORDER BY libelle_cat ASC" },
     (errors, result) => {
       if (errors) throw errors;
@@ -18,7 +18,7 @@ const createCategoryHandler = asyncHandler(async (req, res) => {
       message: `All fields are mandatory !`,
     });
   } else {
-    await db.query(
+     db.query(
       { sql: "INSERT INTO categorie(libelle_cat) values(?)" },
       [libelle],
       (errors, result) => {
@@ -34,7 +34,7 @@ const createCategoryHandler = asyncHandler(async (req, res) => {
 
 const getCategoryHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
@@ -53,7 +53,7 @@ const getCategoryHandler = asyncHandler(async (req, res) => {
 
 const updateCategoryHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
@@ -80,7 +80,7 @@ const updateCategoryHandler = asyncHandler(async (req, res) => {
 
 const deleteCategoryHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
@@ -109,7 +109,7 @@ const deleteCategoryHandler = asyncHandler(async (req, res) => {
 
 const getCategoryArticlesHandler = asyncHandler(async (req, res) => {
   if(req.params.id){
-    await db.query(
+     db.query(
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
