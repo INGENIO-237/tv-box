@@ -5,7 +5,7 @@ const getAllObjectsHandler = asyncHandler(async (req, res) => {
    db.query(
     { sql: "SELECT * FROM objet ORDER BY libelle_obj" },
     (errors, result) => {
-      if (errors) throw errors;
+      if (errors) throw new Error(errors.sqlMessage);
       res.status(200).json(result);
     }
   );
@@ -17,7 +17,7 @@ const getObjectHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM objet WHERE id_obj = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `Object with id ${req.params.id} does not exist`,
@@ -39,7 +39,7 @@ const createObjectHandler = asyncHandler(async (req, res) => {
       { sql: "INSERT INTO objet(libelle_obj) VALUES(?)" },
       [libelle_obj],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         res.status(201).json({
           insertedId: result.insertId,
           message: "Object created successfully",
@@ -55,7 +55,7 @@ const updateObjectHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM objet WHERE id_obj = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `Object with id ${req.params.id} does not exist`,
@@ -66,7 +66,7 @@ const updateObjectHandler = asyncHandler(async (req, res) => {
             { sql: "UPDATE objet SET libelle_obj = ? WHERE id_obj = ?" },
             [libelle_obj, req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json({ message: "Object updated successfully" });
             }
           );
@@ -82,7 +82,7 @@ const deleteObjectHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM objet WHERE id_obj = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `Object with id ${req.params.id} does not exist`,
@@ -92,7 +92,7 @@ const deleteObjectHandler = asyncHandler(async (req, res) => {
             { sql: "DELETE FROM objet WHERE id_obj = ?" },
             [req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json({ message: "Object deleted successfully" });
             }
           );
@@ -108,7 +108,7 @@ const getObjetRequestsHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM objet WHERE id_obj = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `Object with id ${req.params.id} does not exist`,
@@ -118,7 +118,7 @@ const getObjetRequestsHandler = asyncHandler(async (req, res) => {
             { sql: "SELECT * FROM demande WHERE id_obj = ?" },
             [req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json(result);
             }
           );

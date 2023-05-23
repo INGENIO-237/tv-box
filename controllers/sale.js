@@ -10,7 +10,7 @@ const createSaleHandler = asyncHandler(async (req, res) => {
       { sql: "INSERT INTO concerner VALUES(?,?,?)" },
       [id_cmd, id_art, qte],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         res.status(201).json({ message: "Sale inserted successfully" });
       }
     );
@@ -26,7 +26,7 @@ const updateSaleHandler = asyncHandler(async (req, res) => {
       { sql: "UPDATE concerner SET qte = ? WHERE id_cmd = ? AND id_art = ?" },
       [qte, id_cmd, id_art],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         res.status(200).json({ message: "Sale updated successfully" });
       }
     );
@@ -42,7 +42,7 @@ const deleteSaleHandler = asyncHandler(async (req, res) => {
       { sql: "DELETE FROM concerner WHERE id_cmd = ? AND id_art = ?" },
       [id_cmd, id_art],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         res.status(200).json({ message: "Sale deleted successfully" });
       }
     );

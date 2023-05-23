@@ -5,7 +5,7 @@ const getAllOrdersHandler = asyncHandler(async (req, res) => {
    db.query(
     { sql: "SELECT * FROM commande ORDER BY date_cmd DESC" },
     (errors, result) => {
-      if (errors) throw errors;
+      if (errors) throw new Error(errors.sqlMessage);
       res.status(200).json(result);
     }
   );
@@ -17,7 +17,7 @@ const getOrderHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -44,7 +44,7 @@ const createOrderHandler = asyncHandler(async (req, res) => {
       },
       [newDateLiv, adresse_liv, nom_complet_cli, phone_cli],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         res.status(201).json({
           insertedId: result.insertId,
           message: "Order inserted successfully",
@@ -60,7 +60,7 @@ const updateOrderHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -83,7 +83,7 @@ const updateOrderHandler = asyncHandler(async (req, res) => {
                 req.params.id,
               ],
               (errors, result) => {
-                if (errors) throw errors;
+                if (errors) throw new Error(errors.sqlMessage);
                 res.status(200).json({ message: "Order updated successfully" });
               }
             );
@@ -100,7 +100,7 @@ const deleteOrderHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -112,7 +112,7 @@ const deleteOrderHandler = asyncHandler(async (req, res) => {
             },
             [req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json({ message: "Order deleted successfully" });
             }
           );
@@ -128,7 +128,7 @@ const changeOrderStatusHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT statut_liv FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -142,7 +142,7 @@ const changeOrderStatusHandler = asyncHandler(async (req, res) => {
             { sql: "UPDATE commande SET statut_liv = ? WHERE id_cmd = ?" },
             [statut, req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res
                 .status(200)
                 .json({ message: "Order status updated successfully" });
@@ -160,7 +160,7 @@ const getOrderSalesHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -172,7 +172,7 @@ const getOrderSalesHandler = asyncHandler(async (req, res) => {
             },
             [req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json(result);
             }
           );
@@ -188,7 +188,7 @@ const getOrderPaymentsHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -198,7 +198,7 @@ const getOrderPaymentsHandler = asyncHandler(async (req, res) => {
             { sql: "SELECT * FROM paiement WHERE id_cmd = ?" },
             [req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json(result);
             }
           );

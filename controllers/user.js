@@ -7,7 +7,7 @@ const getAllUsersHandler = asyncHandler(async (req, res) => {
       sql: "SELECT * FROM utilisateur ut, role rol WHERE rol.id_role = ut.id_role ORDER BY nom_usr ASC",
     },
     (errors, result) => {
-      if (errors) throw errors;
+      if (errors) throw new Error(errors.sqlMessage);
       res.status(200).json(result);
     }
   );
@@ -21,7 +21,7 @@ const getUserHandler = asyncHandler(async (req, res) => {
       },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -42,7 +42,7 @@ const getUsersByRoleHandler = asyncHandler(async (req, res) => {
       },
       [req.params.role],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         res.status(200).json(result);
       }
     );
@@ -57,7 +57,7 @@ const updateUserHandler = asyncHandler(async (req, res) => {
       },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -73,7 +73,7 @@ const updateUserHandler = asyncHandler(async (req, res) => {
               },
               [id_role, nom_usr, prenom_usr, phone_usr, req.params.id],
               (errors, result) => {
-                if (errors) throw errors;
+                if (errors) throw new Error(errors.sqlMessage);
                 res.status(200).json({ message: "User updated successfully" });
               }
             );
@@ -92,7 +92,7 @@ const deleteUserHandler = asyncHandler(async (req, res) => {
       },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -104,7 +104,7 @@ const deleteUserHandler = asyncHandler(async (req, res) => {
             },
             [req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json({ message: "User deleted successfully" });
             }
           );
@@ -121,7 +121,7 @@ const getUserGainsHandler = asyncHandler(async (req, res) => {
     },
     [req.user.id_usr],
     (errors, result) => {
-      if (errors) throw errors;
+      if (errors) throw new Error(errors.sqlMessage);
       res.status(200).json(result);
     }
   );

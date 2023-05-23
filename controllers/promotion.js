@@ -8,7 +8,7 @@ const getAllPromotionsHandler = asyncHandler(async (req, res) => {
       sql: "SELECT * FROM promotion pro, utilisateur ut WHERE ut.id_usr = pro.id_usr ORDER BY pro.code_prom ASC",
     },
     (errors, result) => {
-      if (errors) throw errors;
+      if (errors) throw new Error(errors.sqlMessage);
       res.status(200).json(result);
     }
   );
@@ -27,7 +27,7 @@ const createPromotionHandler = asyncHandler(async (req, res) => {
       },
       [id_usr, codePromo, commission_prom, reduction_prom],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         res.status(200).json({
           insertedId: result.insertId,
           message: "Promotion inserted successfully",
@@ -45,7 +45,7 @@ const getPromotionByUserIdHandler = asyncHandler(async (req, res) => {
       },
       [req.params.id_usr],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `User with id ${req.params.id_usr} does not exist`,
@@ -55,7 +55,7 @@ const getPromotionByUserIdHandler = asyncHandler(async (req, res) => {
             { sql: "SELECT * FROM promotion WHERE id_usr = ?" },
             [req.params.id_usr],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json(result);
             }
           );
@@ -73,7 +73,7 @@ const updatePromotionByUserIdHandler = asyncHandler(async (req, res) => {
       },
       [req.params.id_usr],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `User with id ${req.params.id_usr} does not exist`,
@@ -86,7 +86,7 @@ const updatePromotionByUserIdHandler = asyncHandler(async (req, res) => {
             },
             [commission_prom, reduction_prom, req.params.id_usr],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res
                 .status(200)
                 .json({ message: "Promotion updated successfully" });
@@ -106,7 +106,7 @@ const deletePromotionByUserIdHandler = asyncHandler(async (req, res) => {
       },
       [req.params.id_usr],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `User with id ${req.params.id_usr} does not exist`,
@@ -118,7 +118,7 @@ const deletePromotionByUserIdHandler = asyncHandler(async (req, res) => {
             },
             [req.params.id_usr],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res
                 .status(200)
                 .json({ message: "Promotion deleted successfully" });

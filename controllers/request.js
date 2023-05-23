@@ -5,7 +5,7 @@ const getAllRequestsHandler = asyncHandler(async (req, res) => {
    db.query(
     { sql: "SELECT * FROM demande ORDER BY date_dmd DESC" },
     (errors, result) => {
-      if (errors) throw errors;
+      if (errors) throw new Error(errors.sqlMessage);
       res.status(200).json(result);
     }
   );
@@ -19,7 +19,7 @@ const getRequestHandler = asyncHandler(async (req, res) => {
       },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `Request with id ${req.params.id} does not exist`,
@@ -64,7 +64,7 @@ const createRequestHandler = asyncHandler(async (req, res) => {
         phone_cli_dmd,
       ],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         res.status(201).json({
           insertedId: result.insertId,
           message: "Request created successfully",
@@ -82,7 +82,7 @@ const updateRequestHandler = asyncHandler(async (req, res) => {
       },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `Request with id ${req.params.id} does not exist`,
@@ -121,7 +121,7 @@ const updateRequestHandler = asyncHandler(async (req, res) => {
                 req.params.id,
               ],
               (errors, result) => {
-                if (errors) throw errors;
+                if (errors) throw new Error(errors.sqlMessage);
                 res.status(200).json({
                   message: "Request updated successfully",
                 });
@@ -142,7 +142,7 @@ const deleteRequestHandler = asyncHandler(async (req, res) => {
       },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `Request with id ${req.params.id} does not exist`,
@@ -154,7 +154,7 @@ const deleteRequestHandler = asyncHandler(async (req, res) => {
             },
             [req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json({
                 message: "Request updated successfully",
               });

@@ -78,7 +78,7 @@ const createPaymentHandler = asyncHandler(async (req, res) => {
                   },
                   [global.id_prom, global.id_paie, gain],
                   (errors, result) => {
-                    if (errors) throw errors;
+                    if (errors) throw new Error(errors.sqlMessage);
                   }
                 );
 

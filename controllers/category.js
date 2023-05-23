@@ -5,7 +5,7 @@ const getAllCategoriesHandler = asyncHandler(async (req, res) => {
   db.query(
     { sql: "SELECT * FROM categorie ORDER BY libelle_cat ASC" },
     (errors, result) => {
-      if (errors) throw errors;
+      if (errors) throw new Error(errors.sqlMessage);
       res.status(200).json(result);
     }
   );
@@ -23,7 +23,7 @@ const createCategoryHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT libelle_cat FROM categorie WHERE libelle_cat = ?" },
       [libelle],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length > 0) {
           res.status(400).json({ sql: "This category already exists" });
         } else {
@@ -31,7 +31,7 @@ const createCategoryHandler = asyncHandler(async (req, res) => {
             { sql: "INSERT INTO categorie(libelle_cat) values(?)" },
             [libelle],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(201).json({
                 insertedId: result.insertId,
                 message: "Category inserted successfully",
@@ -50,7 +50,7 @@ const getCategoryHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `Category with id ${req.params.id} does not exist`,
@@ -69,7 +69,7 @@ const updateCategoryHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `Category with id ${req.params.id} does not exist`,
@@ -80,7 +80,7 @@ const updateCategoryHandler = asyncHandler(async (req, res) => {
             { sql: "UPDATE categorie SET libelle_cat = ? WHERE id_cat = ?" },
             [libelle, req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(20);
             }
           );
@@ -96,7 +96,7 @@ const deleteCategoryHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `Category with id ${req.params.id} does not exist`,
@@ -107,7 +107,7 @@ const deleteCategoryHandler = asyncHandler(async (req, res) => {
             { sql: "DELETE FROM categorie WHERE id_cat = ?" },
             [req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res
                 .status(200)
                 .json({ message: "Category deleted successfully" });
@@ -125,7 +125,7 @@ const getCategoryArticlesHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM categorie WHERE id_cat = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: `Category with id ${req.params.id} does not exist`,
@@ -137,7 +137,7 @@ const getCategoryArticlesHandler = asyncHandler(async (req, res) => {
             },
             [req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json(result);
             }
           );

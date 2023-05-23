@@ -20,7 +20,7 @@ const registerUserHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM utilisateur WHERE email_usr = ?" },
       [email_usr],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length > 0) {
           res.status(400).json({ message: "This email is already registered" });
         } else {
@@ -30,7 +30,7 @@ const registerUserHandler = asyncHandler(async (req, res) => {
             },
             [role, email_usr, mdp, nom_usr, prenom_usr, phone_usr],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(201).json({
                 insertedId: result.insertId,
                 message: "User registered successfully",
@@ -52,7 +52,7 @@ const loginUserHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM utilisateur WHERE email_usr = ?" },
       [email_usr],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res.status(404).json({
             message: "There's no user registered with this email address",
@@ -91,7 +91,7 @@ const updateCredentialsHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT id_usr, email_usr FROM utilisateur WHERE email_usr = ?" },
       [new_email_usr],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length > 0 && result[0].id_usr != req.user.id_usr) {
           res.status(400).json({
             message: "This email is already in use by another user",
@@ -107,7 +107,7 @@ const updateCredentialsHandler = asyncHandler(async (req, res) => {
                 },
                 [new_email_usr, newPwd, req.user.id_usr],
                 (errors, result) => {
-                  if (errors) throw errors;
+                  if (errors) throw new Error(errors.sqlMessage);
                   req.user.mdp_usr = newPwd;
                   res
                     .status(200)
@@ -131,7 +131,7 @@ const passwordResetRequestHandler = asyncHandler(async (req, res) => {
       { sql: "SELECT * FROM utilisateur WHERE email_usr = ?" },
       [email_usr],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -166,7 +166,7 @@ const passwordResetHandler = asyncHandler(async (req, res) => {
             { sql: "UPDATE utilisateur SET mdp_usr = ? WHERE id_usr = ?" },
             [newPwd, decoded.user.id_usr],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json({ message: "Password reset successfully" });
             }
           );
