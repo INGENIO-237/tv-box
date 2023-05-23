@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const errorHandler = require("./middlewares/errorHandler");
+const cookies = require("cookie-parser");
 
 // PORT
 const PORT = process.env.PORT || 3000;
@@ -17,6 +18,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // Error handling error
 app.use(errorHandler);
+
+// Cookie parser
+app.use(cookies());
 
 // Routes
 app.use(`/api/${version}/articles`, require("./routes/article"));

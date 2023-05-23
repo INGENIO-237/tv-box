@@ -67,6 +67,10 @@ const loginUserHandler = asyncHandler(async (req, res) => {
                 process.env.TOKEN_ACCESS_SECRET,
                 { expiresIn: "60m" }
               );
+              res.cookie("authcookie", accessToken, {
+                maxAge: 900000,
+                httpOnly: true,
+              });
               res.status(200).json({ token: accessToken });
             }
           });
@@ -184,5 +188,5 @@ module.exports = {
   currentUserHandler,
   updateCredentialsHandler,
   passwordResetRequestHandler,
-  passwordResetHandler
+  passwordResetHandler,
 };
