@@ -130,10 +130,40 @@ const deletePromotionByUserIdHandler = asyncHandler(async (req, res) => {
   }
 });
 
+const regeneratePromotionCodeHandler = asyncHandler(async (req, res) => {
+  const codePromo = getCodePromo();
+  db.query(
+    {
+      sql: "SELECT ut.id_usr FROM utilisateur ut, promotion pro WHERE ut.id_usr = pro.id_usr AND ut.id_usr = ?",
+    },
+    [req.params.id_usr],
+    (errors, result) => {
+      if (errors) throw new Error(errors.sqlMessage);
+      if (result.length == 0) {
+        res.status(404).json({
+          message: `User with id ${req.params.id_usr} does not exist or does not have any promotion associated`,
+        });
+      } else {
+        db.query(
+          { sql: "UPDATE promotion SET code_prom = ? WHERE id_usr = ?" },
+          [codePromo, req.params.id_usr],
+          (errors, result) => {
+            if (errors) throw new Error(errors.sqlMessage);
+            res
+              .status(200)
+              .json({ message: "Promotion code updated successfully" });
+          }
+        );
+      }
+    }
+  );
+});
+
 module.exports = {
   getAllPromotionsHandler,
   createPromotionHandler,
   getPromotionByUserIdHandler,
   updatePromotionByUserIdHandler,
   deletePromotionByUserIdHandler,
+  regeneratePromotionCodeHandler,
 };

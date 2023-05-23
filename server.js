@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config();
+const errorHandler = require("./middlewares/errorHandler");
 
 // PORT
 const PORT = process.env.PORT || 3000;
@@ -13,6 +14,9 @@ const app = express();
 // Body parsing middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Error handling error
+app.use(errorHandler);
 
 // Routes
 app.use(`/api/${version}/articles`, require("./routes/article"));
