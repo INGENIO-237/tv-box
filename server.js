@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const errorHandler = require("./middlewares/errorHandler");
 const cookies = require("cookie-parser");
+const cors = require("cors");
 
 // PORT
 const PORT = process.env.PORT || 3000;
@@ -11,6 +12,12 @@ const version = "1.0";
 
 // Initialize app
 const app = express();
+
+app.use(
+  cors({
+    origin: `http://localhost:3000`,
+  })
+);
 
 // Body parsing middlewares
 app.use(express.json());
