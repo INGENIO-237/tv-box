@@ -4,6 +4,7 @@ const {
   getPromotionByUserIdHandler,
   updatePromotionByUserIdHandler,
   deletePromotionByUserIdHandler,
+  regeneratePromotionCodeHandler,
 } = require("../controllers/promotion");
 
 const accessVerification = require("../middlewares/tokenVerification");
@@ -37,5 +38,10 @@ router.put("/:id_usr", updatePromotionByUserIdHandler);
 // @route DELETE /api/{version}/promotions/:id_usr
 // private
 router.delete("/:id_usr", deletePromotionByUserIdHandler);
+
+// @desc Regenerate a user's promotion code
+// @route PUT /api/{version}/promotions/:id_usr/regenerate
+// private
+router.put("/:id_usr/regenerate", regeneratePromotionCodeHandler);
 
 module.exports = router;

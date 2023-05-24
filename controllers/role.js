@@ -2,10 +2,10 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 
 const getAllRolesHandler = asyncHandler(async (req, res) => {
-  await db.query(
+  db.query(
     { sql: "SELECT * FROM role ORDER BY libelle_role ASC" },
     (errors, result) => {
-      if (errors) throw errors;
+      if (errors) throw new Error(errors.sqlMessage);
       res.status(200).json(result);
     }
   );
@@ -13,11 +13,11 @@ const getAllRolesHandler = asyncHandler(async (req, res) => {
 
 const getRoleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+    db.query(
       { sql: "SELECT * FROM role WHERE id_role = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -31,19 +31,32 @@ const getRoleHandler = asyncHandler(async (req, res) => {
 });
 
 const createRoleHandler = asyncHandler(async (req, res) => {
-  const { libelle_role } = req.body;
+  let { libelle_role } = req.body;
   if (!libelle_role) {
     res.status(400).json({ message: "All fields are mandatory" });
   } else {
-    await db.query(
-      { sql: "INSERT INTO role(libelle_role) VALUES(?)" },
+    libelle_role = libelle_role.toLowerCase();
+
+    db.query(
+      { sql: "SELECT libelle_role FROM role WHERE libelle_role = ?" },
       [libelle_role],
       (errors, result) => {
-        if (errors) throw errors;
-        res.status(201).json({
-          insertedId: result.insertId,
-          message: "Role inserted successfully",
-        });
+        if (errors) throw new Error(errors.sqlMessage);
+        if (result.length > 0) {
+          res.status(400).json({ message: "This role already exists" });
+        } else {
+          db.query(
+            { sql: "INSERT INTO role(libelle_role) VALUES(?)" },
+            [libelle_role],
+            (errors, result) => {
+              if (errors) throw new Error(errors.sqlMessage);
+              res.status(201).json({
+                insertedId: result.insertId,
+                message: "Role inserted successfully",
+              });
+            }
+          );
+        }
       }
     );
   }
@@ -51,11 +64,11 @@ const createRoleHandler = asyncHandler(async (req, res) => {
 
 const updateRoleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+    db.query(
       { sql: "SELECT * FROM role WHERE id_role = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -69,7 +82,7 @@ const updateRoleHandler = asyncHandler(async (req, res) => {
               { sql: "UPDATE role SET libelle_role = ? WHERE id_role = ?" },
               [libelle_role, req.params.id],
               (errors, result) => {
-                if (errors) throw errors;
+                if (errors) throw new Error(errors.sqlMessage);
                 res.status(200).json({ message: "Role updated successfully" });
               }
             );
@@ -82,11 +95,11 @@ const updateRoleHandler = asyncHandler(async (req, res) => {
 
 const deleteRoleHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-    await db.query(
+    db.query(
       { sql: "SELECT * FROM role WHERE id_role = ?" },
       [req.params.id],
       (errors, result) => {
-        if (errors) throw errors;
+        if (errors) throw new Error(errors.sqlMessage);
         if (result.length == 0) {
           res
             .status(404)
@@ -96,7 +109,7 @@ const deleteRoleHandler = asyncHandler(async (req, res) => {
             { sql: "DELETE FROM role WHERE id_role = ?" },
             [req.params.id],
             (errors, result) => {
-              if (errors) throw errors;
+              if (errors) throw new Error(errors.sqlMessage);
               res.status(200).json({ message: "Role deleted successfully" });
             }
           );

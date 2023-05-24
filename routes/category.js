@@ -8,6 +8,7 @@ const {
 } = require("../controllers/category");
 
 const accessVerification = require("../middlewares/tokenVerification");
+const checkId = require("../middlewares/check-id");
 
 const router = require("express").Router();
 
@@ -27,17 +28,17 @@ router.post("/", createCategoryHandler);
 // @desc Get a single Category
 // @route GET /api/{version}/categories
 // private
-router.get("/:id", getCategoryHandler);
+router.get("/:id", checkId, getCategoryHandler);
 
 // @desc Update a Category
 // @route PUT /api/{version}/categories/:id
 // private
-router.put("/:id", updateCategoryHandler);
+router.put("/:id", checkId, updateCategoryHandler);
 
 // @desc Delete a Category
 // @route DELETE /api/{version}/categories/:id
 // private
-router.delete("/:id", deleteCategoryHandler);
+router.delete("/:id", checkId, deleteCategoryHandler);
 
 // @desc Get all articles of a certain Category
 // @route GET /api/{version}/categories/:id/articles
