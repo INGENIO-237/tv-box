@@ -12,37 +12,34 @@ const checkId = require("../middlewares/check-id");
 
 const router = require("express").Router();
 
-// acess token verification middleware
-router.use(accessVerification);
-
 // @desc Get all objects
 // @route GET /api/{version}/objects
-// private
+// public
 router.get("/", getAllObjectsHandler);
 
 // @desc Create a object
 // @route POST /api/{version}/objects
 // private
-router.post("/", createObjectHandler);
+router.post("/", accessVerification, createObjectHandler);
 
 // @desc Get a object
 // @route GET /api/{version}/objects/:id
-// private
+// public
 router.get("/:id", checkId, getObjectHandler);
 
 // @desc Update a object
 // @route PUT /api/{version}/objects/:id
 // private
-router.put("/:id", checkId, updateObjectHandler);
+router.put("/:id", accessVerification, checkId, updateObjectHandler);
 
 // @desc Delete a object
 // @route DELETE /api/{version}/objects/:id
 // private
-router.delete("/:id", checkId, deleteObjectHandler);
+router.delete("/:id", accessVerification, checkId, deleteObjectHandler);
 
 // @desc Get all requests of an object
 // @route GET /api/{version}/objects/:id/requests
-// private
+// public
 router.get("/:id/requests", checkId, getObjetRequestsHandler);
 
 module.exports = router;
