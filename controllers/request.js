@@ -110,6 +110,5 @@ module.exports = {
   getAllRequestsHandler,
   getRequestHandler,
   createRequestHandler,
-  updateRequestHandler,
   deleteRequestHandler,
 };

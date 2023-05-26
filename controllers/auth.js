@@ -68,7 +68,7 @@ const loginUserHandler = asyncHandler(async (req, res) => {
                 { expiresIn: "60m" }
               );
               res.cookie("authcookie", accessToken, {
-                maxAge: 900000,
+                maxAge: 1000 * 60 * 60 * 24 * 365,
                 httpOnly: true,
               });
               res.status(200).json({ token: accessToken });
@@ -82,6 +82,15 @@ const loginUserHandler = asyncHandler(async (req, res) => {
 
 const currentUserHandler = asyncHandler(async (req, res) => {
   res.status(200).json(req.user);
+});
+
+const logoutUserHandler = asyncHandler(async (req, res) => {
+  if (!req.cookies.authcookie) {
+    res.status(401).json({ message: "You are not meant to be there" });
+  } else {
+    res.clearCookie("authcookie");
+    res.status(200).json({ message: "Logout successfully !" });
+  }
 });
 
 const updateCredentialsHandler = asyncHandler(async (req, res) => {
@@ -186,6 +195,7 @@ module.exports = {
   registerUserHandler,
   loginUserHandler,
   currentUserHandler,
+  logoutUserHandler,
   updateCredentialsHandler,
   passwordResetRequestHandler,
   passwordResetHandler,

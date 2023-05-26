@@ -5,6 +5,7 @@ const {
   updateCredentialsHandler,
   passwordResetRequestHandler,
   passwordResetHandler,
+  logoutUserHandler,
 } = require("../controllers/auth");
 
 const accessVerification = require("../middlewares/tokenVerification");
@@ -25,6 +26,11 @@ router.post("/login", loginUserHandler);
 // route GET /api/{version}/account/current
 // private
 router.get("/current", accessVerification, currentUserHandler);
+
+// @desc Logout user
+// route POST /api/{version}/account/logout
+// private
+router.post("/logout", accessVerification, logoutUserHandler);
 
 // @desc Update user credentials
 // route POST /api/{version}/account/update-credentials
