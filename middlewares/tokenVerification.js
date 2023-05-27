@@ -28,7 +28,6 @@ const accessVerification = asyncHandler(async (req, res, next) => {
       next();
     }
   });
-  console.log(req.cookies.authcookie);
 });
 
 module.exports = accessVerification;

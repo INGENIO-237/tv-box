@@ -49,7 +49,9 @@ const loginUserHandler = asyncHandler(async (req, res) => {
     res.status(400).json({ message: "All fields are mandatory" });
   } else {
     db.query(
-      { sql: "SELECT * FROM utilisateur WHERE email_usr = ?" },
+      {
+        sql: "SELECT * FROM utilisateur ut, role rol WHERE ut.email_usr = ? AND ut.id_role = rol.id_role",
+      },
       [email_usr],
       (errors, result) => {
         if (errors) throw new Error(errors.sqlMessage);
@@ -121,10 +123,27 @@ const updateCredentialsHandler = asyncHandler(async (req, res) => {
                 [new_email_usr, newPwd, req.user.id_usr],
                 (errors, result) => {
                   if (errors) throw new Error(errors.sqlMessage);
-                  req.user.mdp_usr = newPwd;
-                  res
-                    .status(200)
-                    .json({ message: "Credentials updated successfully" });
+                  db.query(
+                    {
+                      sql: "SELECT * FROM utilisateur ut, role rol WHERE ut.email_usr = ? AND ut.id_role = rol.id_role",
+                    },
+                    [new_email_usr],
+                    (errors, result) => {
+                      if (errors) throw new Error(error.sqlMessage);
+                      accessToken = jwt.sign(
+                        { user: result[0] },
+                        process.env.TOKEN_ACCESS_SECRET,
+                        { expiresIn: "60m" }
+                      );
+                      res
+                        .cookie("authcookie", accessToken, {
+                          maxAge: 1000 * 60 * 60 * 24 * 365,
+                          httpOnly: true,
+                        })
+                        .status(200)
+                        .json({ message: "Credentials updated successfully" });
+                    }
+                  );
                 }
               );
             }
@@ -151,7 +170,7 @@ const passwordResetRequestHandler = asyncHandler(async (req, res) => {
             .json({ message: "There's no user with this email address" });
         } else {
           const resetToken = jwt.sign(
-            { user: result[0] },
+            { passwordResetUser: result[0] },
             process.env.TOKEN_ACCESS_SECRET,
             { expiresIn: "10m" }
           );
@@ -177,10 +196,12 @@ const passwordResetHandler = asyncHandler(async (req, res) => {
         } else {
           db.query(
             { sql: "UPDATE utilisateur SET mdp_usr = ? WHERE id_usr = ?" },
-            [newPwd, decoded.user.id_usr],
+            [newPwd, decoded.passwordResetUser.id_usr],
             (errors, result) => {
               if (errors) throw new Error(errors.sqlMessage);
-              res.status(200).json({ message: "Password reset successfully" });
+              res.status(200).json({
+                message: "Password reset successfully. You can now log in",
+              });
             }
           );
         }
