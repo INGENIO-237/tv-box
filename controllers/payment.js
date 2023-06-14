@@ -9,6 +9,18 @@ global.id_paie;
 global.reduction = 0;
 global.montant = 0;
 
+const getAllPayments = (req, res) => {
+  db.query(
+    {
+      sql: "SELECT * FROM paiement paie, commande com WHERE com.id_cmd = paie.id_cmd",
+    },
+    (errors, result) => {
+      if (errors) throw new Error(errors);
+      res.status(200).json(result);
+    }
+  );
+};
+
 const createPaymentHandler = asyncHandler(async (req, res) => {
   const {
     id_cmd,
@@ -170,6 +182,7 @@ const getStripePaymentConfigurationHandler = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getAllPayments,
   createPaymentHandler,
   getStripePaymentConfigurationHandler,
 };

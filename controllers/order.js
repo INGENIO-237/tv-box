@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const db = require("../config/db");
 
 const getAllOrdersHandler = asyncHandler(async (req, res) => {
-   db.query(
+  db.query(
     { sql: "SELECT * FROM commande ORDER BY date_cmd DESC" },
     (errors, result) => {
       if (errors) throw new Error(errors.sqlMessage);
@@ -13,7 +13,7 @@ const getAllOrdersHandler = asyncHandler(async (req, res) => {
 
 const getOrderHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
@@ -31,18 +31,15 @@ const getOrderHandler = asyncHandler(async (req, res) => {
 });
 
 const createOrderHandler = asyncHandler(async (req, res) => {
-  const { adresse_liv, date_liv, nom_complet_cli, phone_cli } = req.body;
-  if (!date_liv || !adresse_liv || !nom_complet_cli || !phone_cli) {
+  const { adresse_liv, nom_complet_cli, email_cli } = req.body;
+  if (!adresse_liv || !nom_complet_cli || !email_cli) {
     res.status(400).json({ message: "All fields are mandatory" });
   } else {
-    // UTC Date
-    const newDateLiv = new Date(date_liv);
-
-     db.query(
+    db.query(
       {
-        sql: "INSERT INTO commande(date_liv, adresse_liv, nom_complet_cli, phone_cli) VALUES(?,?,?,?)",
+        sql: "INSERT INTO commande adresse_liv, nom_complet_cli, email_cli) VALUES(?,?,?)",
       },
-      [newDateLiv, adresse_liv, nom_complet_cli, phone_cli],
+      [adresse_liv, nom_complet_cli, email_cli],
       (errors, result) => {
         if (errors) throw new Error(errors.sqlMessage);
         res.status(201).json({
@@ -56,7 +53,7 @@ const createOrderHandler = asyncHandler(async (req, res) => {
 
 const updateOrderHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
@@ -66,22 +63,15 @@ const updateOrderHandler = asyncHandler(async (req, res) => {
             .status(404)
             .json({ message: `Order with id ${req.params.id} does not exist` });
         } else {
-          const { adresse_liv, date_liv, nom_complet_cli, phone_cli } =
-            req.body;
-          if (!date_liv || !adresse_liv || !nom_complet_cli || !phone_cli) {
+          const { adresse_liv, nom_complet_cli, email_cli } = req.body;
+          if (!adresse_liv || !nom_complet_cli || !email_cli) {
             res.status(400).json({ message: "All fields are mandatory" });
           } else {
             db.query(
               {
-                sql: "UPDATE commande SET date_liv = ?, adresse_liv = ?, nom_complet_cli = ?, phone_cli = ? WHERE id_cmd = ?",
+                sql: "UPDATE commande SET adresse_liv = ?, nom_complet_cli = ?, email_cli = ? WHERE id_cmd = ?",
               },
-              [
-                date_liv,
-                adresse_liv,
-                nom_complet_cli,
-                phone_cli,
-                req.params.id,
-              ],
+              [adresse_liv, nom_complet_cli, email_cli, req.params.id],
               (errors, result) => {
                 if (errors) throw new Error(errors.sqlMessage);
                 res.status(200).json({ message: "Order updated successfully" });
@@ -96,7 +86,7 @@ const updateOrderHandler = asyncHandler(async (req, res) => {
 
 const deleteOrderHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
@@ -124,7 +114,7 @@ const deleteOrderHandler = asyncHandler(async (req, res) => {
 
 const changeOrderStatusHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       { sql: "SELECT statut_liv FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {
@@ -156,7 +146,7 @@ const changeOrderStatusHandler = asyncHandler(async (req, res) => {
 
 const getOrderSalesHandler = asyncHandler(async (req, res) => {
   if (req.params.id) {
-     db.query(
+    db.query(
       { sql: "SELECT * FROM commande WHERE id_cmd = ?" },
       [req.params.id],
       (errors, result) => {

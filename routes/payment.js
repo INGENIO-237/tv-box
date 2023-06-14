@@ -1,9 +1,16 @@
 const {
   createPaymentHandler,
   getStripePaymentConfigurationHandler,
+  getAllPayments,
 } = require("../controllers/payment");
+const accessVerification = require("../middlewares/tokenVerification");
 
 const router = require("express").Router();
+
+// @desc Get all payments
+// @route GET /api/{version}/payments
+// private
+router.get("/", accessVerification, getAllPayments);
 
 // @desc Create a payment
 // @route POST /api/{version}/payments

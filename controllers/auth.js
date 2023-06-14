@@ -1,8 +1,7 @@
 const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../config/db");
-const { passwordHash } = require("../utils/password-hash");
 require("dotenv").config();
 
 const registerUserHandler = asyncHandler(async (req, res) => {
@@ -14,8 +13,7 @@ const registerUserHandler = asyncHandler(async (req, res) => {
       .json({ message: "email, password, name, phone or all are missing" });
   } else {
     const role = id_role ? id_role : 2;
-    const mdp = await passwordHash(mdp_usr);
-
+    let mdp;
     db.query(
       { sql: "SELECT * FROM utilisateur WHERE email_usr = ?" },
       [email_usr],
@@ -24,19 +22,22 @@ const registerUserHandler = asyncHandler(async (req, res) => {
         if (result.length > 0) {
           res.status(400).json({ message: "This email is already registered" });
         } else {
-          db.query(
-            {
-              sql: "INSERT INTO utilisateur(id_role, email_usr, mdp_usr, nom_usr, prenom_usr, phone_usr) VALUES(?,?,?,?,?,?)",
-            },
-            [role, email_usr, mdp, nom_usr, prenom_usr, phone_usr],
-            (errors, result) => {
-              if (errors) throw new Error(errors.sqlMessage);
-              res.status(201).json({
-                insertedId: result.insertId,
-                message: "User registered successfully",
-              });
-            }
-          );
+          bcrypt.hash(mdp_usr, 10, (err, hash) => {
+            if (err) throw new Error(err);
+            db.query(
+              {
+                sql: "INSERT INTO utilisateur(id_role, email_usr, mdp_usr, nom_usr, prenom_usr, phone_usr) VALUES(?,?,?,?,?,?)",
+              },
+              [role, email_usr, hash, nom_usr, prenom_usr, phone_usr],
+              (errors, result) => {
+                if (errors) throw new Error(errors.sqlMessage);
+                res.status(201).json({
+                  insertedId: result.insertId,
+                  message: "User registered successfully",
+                });
+              }
+            );
+          });
         }
       }
     );
@@ -65,12 +66,8 @@ const loginUserHandler = asyncHandler(async (req, res) => {
               accessToken = jwt.sign(
                 { user: result[0] },
                 process.env.TOKEN_ACCESS_SECRET,
-                { expiresIn: "60m" }
+                {}
               );
-              res.cookie("authcookie", accessToken, {
-                maxAge: 900000,
-                httpOnly: true,
-              });
               res.status(200).json({ token: accessToken });
             }
           });

@@ -63,15 +63,15 @@ const updateUserHandler = asyncHandler(async (req, res) => {
             .status(404)
             .json({ message: `User with id ${req.params.id} does not exist` });
         } else {
-          const { id_role, nom_usr, prenom_usr, phone_usr } = req.body;
-          if (!id_role || !nom_usr || !phone_usr) {
+          const { email_usr, nom_usr, prenom_usr, phone_usr } = req.body;
+          if (!email_usr || !nom_usr || !phone_usr) {
             res.status(400).json({ message: "All fields are mandatory" });
           } else {
             db.query(
               {
-                sql: "UPDATE utilisateur SET id_role = ?, nom_usr = ?, prenom_usr = ?, phone_usr = ? WHERE id_usr = ?",
+                sql: "UPDATE utilisateur SET email_usr = ?, nom_usr = ?, prenom_usr = ?, phone_usr = ? WHERE id_usr = ?",
               },
-              [id_role, nom_usr, prenom_usr, phone_usr, req.params.id],
+              [email_usr, nom_usr, prenom_usr, phone_usr, req.params.id],
               (errors, result) => {
                 if (errors) throw new Error(errors.sqlMessage);
                 res.status(200).json({ message: "User updated successfully" });
