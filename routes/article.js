@@ -25,7 +25,7 @@ router.get("/", getAllArticlesHandler);
 // @desc Create an article
 // @route POST /api/{version}/articles
 // private
-router.post("/", accessVerification, upload.single('image_art'), createArticleHandler);
+router.post("/", accessVerification, createArticleHandler);
 
 // @desc Get single article
 // @route GET /api/{version}/articles/:id
