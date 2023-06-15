@@ -29,9 +29,6 @@ app.use(errorHandler);
 // Cookie parser
 app.use(cookies());
 
-// Static files
-app.use(express.static("public"));
-
 // Routes
 app.use(`/api/${version}/articles`, require("./routes/article"));
 app.use(`/api/${version}/categories`, require("./routes/category"));
