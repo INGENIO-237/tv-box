@@ -37,7 +37,7 @@ const createOrderHandler = asyncHandler(async (req, res) => {
   } else {
     db.query(
       {
-        sql: "INSERT INTO commande adresse_liv, nom_complet_cli, email_cli) VALUES(?,?,?)",
+        sql: "INSERT INTO commande(adresse_liv, nom_complet_cli, email_cli) VALUES(?,?,?)",
       },
       [adresse_liv, nom_complet_cli, email_cli],
       (errors, result) => {
