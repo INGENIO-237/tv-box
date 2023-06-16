@@ -181,8 +181,28 @@ const getStripePaymentConfigurationHandler = asyncHandler(async (req, res) => {
   res.status(200).json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
 });
 
+const getSinglePaymentHandler = asyncHandler(async (req, res) => {
+  db.query(
+    {
+      sql: "SELECT * FROM commande cmd, paiement paie WHERE paie.id_cmd = cmd.id_cmd AND paie.id_paie = ?",
+    },
+    [req.params.id],
+    (errors, result) => {
+      if (errors) throw new Error(errors.sqlMessage);
+      if (result.length == 0) {
+        res.status(404).json({
+          message: `There's no payment performed with id : ${req.params.id}`,
+        });
+      } else {
+        res.status(200).json(result[0]);
+      }
+    }
+  );
+});
+
 module.exports = {
   getAllPayments,
   createPaymentHandler,
   getStripePaymentConfigurationHandler,
+  getSinglePaymentHandler
 };
