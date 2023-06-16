@@ -159,6 +159,23 @@ const regeneratePromotionCodeHandler = asyncHandler(async (req, res) => {
   );
 });
 
+const getPromotionDetailsByCodeHandler = asyncHandler(async (req, res) => {
+  db.query(
+    { sql: "SELECT * FROM promotion WHERE code_prom = ?" },
+    ["CODE-" + req.params.code],
+    (errors, result) => {
+      if (errors) throw new Error(errors.sqlMessage);
+      if (result.length == 0) {
+        res.status(404).json({
+          message: `There's no promotion available with the code ${code}`,
+        });
+      } else {
+        res.status(200).json(result[0]);
+      }
+    }
+  );
+});
+
 module.exports = {
   getAllPromotionsHandler,
   createPromotionHandler,
@@ -166,4 +183,5 @@ module.exports = {
   updatePromotionByUserIdHandler,
   deletePromotionByUserIdHandler,
   regeneratePromotionCodeHandler,
+  getPromotionDetailsByCodeHandler
 };
