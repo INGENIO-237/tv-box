@@ -84,12 +84,13 @@ const currentUserHandler = asyncHandler(async (req, res) => {
 const updateCredentialsHandler = asyncHandler(async (req, res) => {
   const { new_email_usr, old_mdp_usr, new_mdp_usr } = req.body;
 
-  if ((!new_email_usr, !old_mdp_usr, !new_mdp_usr)) {
+  if (!new_email_usr || !old_mdp_usr || !new_mdp_usr) {
     res.status(400).json({ message: "All fields are mandatory !" });
   } else {
-    const newPwd = await passwordHash(new_mdp_usr);
     db.query(
-      { sql: "SELECT id_usr, email_usr FROM utilisateur WHERE email_usr = ?" },
+      {
+        sql: "SELECT id_usr, email_usr FROM utilisateur WHERE email_usr = ?",
+      },
       [new_email_usr],
       (errors, result) => {
         if (errors) throw new Error(errors.sqlMessage);
@@ -102,19 +103,22 @@ const updateCredentialsHandler = asyncHandler(async (req, res) => {
             if (!match) {
               res.status(400).json({ message: "Incorrect old password" });
             } else {
-              db.query(
-                {
-                  sql: "UPDATE utilisateur SET email_usr = ?, mdp_usr = ? WHERE id_usr = ?",
-                },
-                [new_email_usr, newPwd, req.user.id_usr],
-                (errors, result) => {
-                  if (errors) throw new Error(errors.sqlMessage);
-                  req.user.mdp_usr = newPwd;
-                  res
-                    .status(200)
-                    .json({ message: "Credentials updated successfully" });
-                }
-              );
+              bcrypt.hash(new_mdp_usr, 10, (err, hash) => {
+                if (err) throw new Error(err);
+                db.query(
+                  {
+                    sql: "UPDATE utilisateur SET email_usr = ?, mdp_usr = ? WHERE id_usr = ?",
+                  },
+                  [new_email_usr, hash, req.user.id_usr],
+                  (errors, result) => {
+                    if (errors) throw new Error(errors.sqlMessage);
+                    req.user.mdp_usr = hash;
+                    res
+                      .status(200)
+                      .json({ message: "Credentials updated successfully" });
+                  }
+                );
+              });
             }
           });
         }
