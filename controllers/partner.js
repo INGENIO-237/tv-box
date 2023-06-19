@@ -1,5 +1,6 @@
 const db = require("../config/db");
 const asyncHandler = require("express-async-handler");
+const sendMail = require("../utils/mail-service");
 
 const getPartnerRequestList = asyncHandler(async (req, res) => {
   db.query(
@@ -20,6 +21,15 @@ const createPartnerRequest = asyncHandler(async (req, res) => {
     [nom, prenom, email, phone],
     (errors, result) => {
       if (errors) throw new Error(errors.sqlMessage);
+
+      // Send reception confirmation via mail
+      const user = {
+        fullname: prenom + " " + nom,
+        email: email,
+      };
+
+      sendMail(user.email, "", user);
+
       res.status(201).json({
         insertedId: result.insertId,
         message: "Request saved successfully",
