@@ -3,7 +3,7 @@ const db = require("../config/db");
 
 const getAllRequestsHandler = asyncHandler(async (req, res) => {
    db.query(
-    { sql: "SELECT * FROM demande ORDER BY date_dmd DESC" },
+    { sql: "SELECT * FROM demande dmd, objet obj WHERE dmd.id_obj = obj.id_obj ORDER BY date_dmd DESC" },
     (errors, result) => {
       if (errors) throw new Error(errors.sqlMessage);
       res.status(200).json(result);
