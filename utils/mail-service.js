@@ -50,11 +50,7 @@ const accountCreatedTemplate = (user) => {
 };
 
 // async..await is not allowed in global scope, must use a wrapper
-const sendMail = async (
-  receiver,
-  object = "",
-  user = {}
-) => {
+const sendMail = async (receiver, object = "", user = {}) => {
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
